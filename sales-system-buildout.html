@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales System Buildout — Impello</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --imp-bone:    #f3ecdd;
+    --imp-slate:   #1d2128;
+    --imp-slate-2: #14171d;
+    --imp-amber:   #c2761a;
+    --imp-amber-2: #e8a13a;
+    --imp-muted:   #7a766c;
+    --imp-rule:    rgba(29,33,40,.10);
+    --imp-rule-2:  rgba(29,33,40,.28);
+    --imp-display: 'Inter Tight', -apple-system, system-ui, sans-serif;
+    --imp-mono:    'JetBrains Mono', ui-monospace, monospace;
+    --max: 1280px;
+    --gutter: clamp(1.5rem, 4vw, 3.5rem);
+    --nav-h: 68px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--imp-bone); color: var(--imp-slate); font-family: var(--imp-display); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* LOGO */
+  .impello-logo { display: inline-flex; align-items: baseline; gap: 11px; font-family: var(--imp-display); font-weight: 500; font-size: 22px; line-height: 1; letter-spacing: -0.04em; color: var(--imp-slate); user-select: none; }
+  .impello-logo__mark { display: inline-block; }
+  .impello-logo__arrow { display: inline-flex; align-items: center; align-self: center; width: 0.85em; height: 0.45em; color: var(--imp-amber); transform: translateY(-0.04em); }
+  .impello-logo__arrow svg { width: 100%; height: 100%; display: block; }
+  .impello-logo__cursor { display: inline-block; width: 0.18em; height: 0.85em; background: var(--imp-amber); align-self: center; transform: translateY(0.04em); animation: imp-blink 1.05s steps(2, end) infinite; }
+  @keyframes imp-blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .impello-logo__cursor { animation: none; opacity: 1; } }
+  .impello-logo--inverse { color: var(--imp-bone); }
+  .impello-logo--inverse .impello-logo__arrow  { color: var(--imp-amber-2); }
+  .impello-logo--inverse .impello-logo__cursor { background: var(--imp-amber-2); }
+
+  /* HEADER */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter); background: rgba(243,236,221,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--imp-rule); }
+  .nav-right { display: flex; align-items: center; gap: 2rem; }
+  .nav-link { font-size: 14px; color: var(--imp-muted); transition: color 0.2s; }
+  .nav-link:hover { color: var(--imp-slate); }
+  .nav-btn { padding: 10px 18px; border-radius: 999px; background: var(--imp-slate); color: var(--imp-bone); font-size: 13.5px; font-weight: 500; transition: background 0.15s, transform 0.15s; }
+  .nav-btn:hover { background: #000; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero { position: relative; padding: calc(var(--nav-h) + 6rem) var(--gutter) 6rem; border-bottom: 1px solid var(--imp-rule); overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -120px; right: -100px; width: 480px; height: 480px; border-radius: 999px; background: radial-gradient(circle, rgba(194,118,26,.10), transparent 60%); filter: blur(50px); pointer-events: none; z-index: 0; }
+  .hero-inner { position: relative; z-index: 1; max-width: 860px; }
+
+  .back-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--imp-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--imp-muted); margin-bottom: 2.5rem; transition: color 0.2s; }
+  .back-link:hover { color: var(--imp-amber); }
+
+  .hero-badge { font-family: var(--imp-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--imp-amber); margin-bottom: 1.25rem; }
+  .hero-title { font-size: clamp(44px, 6.5vw, 80px); font-weight: 600; line-height: 0.97; letter-spacing: -0.04em; margin-bottom: 1.5rem; }
+  .hero-title .muted { color: var(--imp-muted); }
+  .hero-sub { font-size: 19px; color: var(--imp-muted); max-width: 560px; line-height: 1.55; margin-bottom: 2.5rem; }
+  .hero-cta { display: inline-flex; align-items: center; gap: 10px; padding: 15px 28px; border-radius: 999px; background: var(--imp-slate); color: var(--imp-bone); font-size: 15px; font-weight: 500; transition: background 0.15s, transform 0.15s; }
+  .hero-cta:hover { background: #000; transform: translateY(-1px); }
+  .hero-cta .arrow { display: inline-block; transition: transform 0.2s; }
+  .hero-cta:hover .arrow { transform: translateX(3px); }
+
+  /* SECTIONS */
+  .section { padding: 6rem var(--gutter); border-bottom: 1px solid var(--imp-rule); }
+  .section-eyebrow { font-family: var(--imp-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--imp-amber); margin-bottom: 1.25rem; }
+  .section-h2 { font-size: clamp(26px, 3vw, 40px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 1rem; }
+  .section-h2 .muted { color: var(--imp-muted); }
+  .section-body { font-size: 17px; color: var(--imp-muted); max-width: 580px; line-height: 1.6; margin-bottom: 3rem; }
+
+  /* DELIVERABLES GRID */
+  .deliverables-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--imp-rule-2); border: 1px solid var(--imp-rule-2); border-radius: 10px; overflow: hidden; }
+  .deliverable-item { background: var(--imp-bone); padding: 2rem 2.25rem; transition: background 0.15s; }
+  .deliverable-item:hover { background: rgba(255,255,255,0.6); }
+  .deliverable-num { font-family: var(--imp-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--imp-amber); margin-bottom: 0.75rem; }
+  .deliverable-title { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+  .deliverable-desc { font-size: 14px; color: var(--imp-muted); line-height: 1.6; }
+
+  /* PROCESS STACK */
+  .process-stack { border: 1px solid var(--imp-rule-2); border-radius: 10px; overflow: hidden; }
+  .process-step { display: grid; grid-template-columns: 72px 1fr; gap: 2rem; align-items: start; padding: 2rem 2.25rem; border-bottom: 1px solid var(--imp-rule); transition: background 0.15s; }
+  .process-step:last-child { border-bottom: none; }
+  .process-step:hover { background: rgba(255,255,255,0.5); }
+  .process-step-num { font-size: 40px; font-weight: 600; letter-spacing: -0.04em; color: var(--imp-amber); opacity: 0.35; line-height: 1; }
+  .process-step-title { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+  .process-step-desc { font-size: 14px; color: var(--imp-muted); line-height: 1.65; }
+
+  /* FIT GRID */
+  .fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .fit-card { background: rgba(255,255,255,0.45); border: 1px solid var(--imp-rule-2); border-radius: 10px; padding: 2rem 2.25rem; }
+  .fit-card-label { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--imp-amber); margin-bottom: 1.25rem; }
+  .fit-list { list-style: none; }
+  .fit-list li { font-size: 14px; color: var(--imp-muted); padding: 8px 0; border-bottom: 1px solid var(--imp-rule); display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+  .fit-list li:last-child { border-bottom: none; }
+  .fit-list li::before { content: '—'; color: var(--imp-amber); flex-shrink: 0; opacity: 0.6; }
+
+  /* FOOTER */
+  .site-footer { background: var(--imp-slate); color: var(--imp-bone); position: relative; overflow: hidden; }
+  .site-footer::before { content: ''; position: absolute; top: -120px; right: -80px; width: 480px; height: 480px; border-radius: 999px; background: radial-gradient(circle, rgba(232,161,58,.10), transparent 60%); filter: blur(40px); pointer-events: none; }
+  .footer-top { position: relative; z-index: 1; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 48px; padding: 80px var(--gutter) 56px; max-width: var(--max); margin: 0 auto; border-bottom: 1px solid rgba(243,236,221,.08); }
+  .footer-brand .impello-logo { margin-bottom: 22px; }
+  .footer-tagline { font-size: 17px; line-height: 1.5; color: rgba(243,236,221,.7); max-width: 300px; }
+  .footer-tagline .accent { color: var(--imp-amber-2); }
+  .footer-col h4 { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(243,236,221,.5); margin: 0 0 16px; }
+  .footer-col a { display: block; padding: 5px 0; font-size: 14px; color: rgba(243,236,221,.8); transition: color 0.2s; }
+  .footer-col a:hover { color: var(--imp-amber-2); }
+  .footer-bottom { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; padding: 24px var(--gutter) 32px; max-width: var(--max); margin: 0 auto; font-family: var(--imp-mono); font-size: 11px; color: rgba(243,236,221,.5); letter-spacing: 0.04em; }
+  .footer-status { display: inline-flex; align-items: center; gap: 8px; color: rgba(243,236,221,.7); }
+  .footer-status .dot { width: 7px; height: 7px; border-radius: 999px; background: var(--imp-amber-2); box-shadow: 0 0 8px var(--imp-amber-2); animation: imp-blink 2.2s steps(2,end) infinite; }
+
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    .deliverables-grid { grid-template-columns: 1fr; }
+    .fit-grid { grid-template-columns: 1fr; }
+    .process-step { grid-template-columns: 56px 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .section { padding: 4rem var(--gutter); }
+    .nav-link { display: none; }
+    .footer-top { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="impello-preview.html" class="impello-logo" aria-label="Impello — home">
+    <span class="impello-logo__mark">impello</span>
+    <span class="impello-logo__arrow" aria-hidden="true"><svg viewBox="0 0 36 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9 H32"/><path d="M24 2 L33 9 L24 16"/></svg></span>
+    <span class="impello-logo__cursor"></span>
+  </a>
+  <div class="nav-right">
+    <a href="impello-preview.html#services" class="nav-link">Services</a>
+    <a href="impello-preview.html#pricing" class="nav-link">Pricing</a>
+    <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="nav-btn" target="_blank">Let's Talk</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <a href="impello-preview.html#services" class="back-link reveal">← Back to Services</a>
+    <div class="hero-badge reveal">Project-Based Engagement</div>
+    <h1 class="hero-title reveal">Sales System<br><span class="muted">Buildout.</span></h1>
+    <p class="hero-sub reveal">You're doing outbound the hard way — manually, inconsistently, or not at all. We build the entire system from the ground up, then hand you the keys.</p>
+    <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="hero-cta reveal" target="_blank">
+      Book a Discovery Call <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</div>
+
+<!-- WHAT'S INCLUDED -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-eyebrow reveal">What's Included</div>
+    <h2 class="section-h2 reveal">Everything you need <span class="muted">to start closing.</span></h2>
+    <p class="section-body reveal">A fully built outbound sales engine — not a template, not a playbook. A working system configured for your ICP, your product, and your team.</p>
+    <div class="deliverables-grid reveal">
+      <div class="deliverable-item">
+        <div class="deliverable-num">01</div>
+        <div class="deliverable-title">ICP & Buyer Persona</div>
+        <div class="deliverable-desc">We define exactly who you're selling to — industry, company size, title, pain points, and buying signals — so every outbound dollar hits the right person.</div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-num">02</div>
+        <div class="deliverable-title">CRM Setup & Migration</div>
+        <div class="deliverable-desc">HubSpot built and configured for your pipeline — stages, deal properties, automations, and views. Migrating from a spreadsheet? We handle that too.</div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-num">03</div>
+        <div class="deliverable-title">Cold Email Sequences</div>
+        <div class="deliverable-desc">Multi-touch sequences written for your voice and offer. Subject lines, openers, CTAs, and follow-ups — built to get replies, not hit spam.</div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-num">04</div>
+        <div class="deliverable-title">Prospect List Sourcing</div>
+        <div class="deliverable-desc">Targeted prospect lists pulled and verified via Apollo and Clay. Hundreds to thousands of qualified leads ready for outreach on day one.</div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-num">05</div>
+        <div class="deliverable-title">Call Scripts & Objection Handling</div>
+        <div class="deliverable-desc">Talk tracks for every stage — cold intro, discovery, demo, and close. Plus a cheat sheet for the 10 objections you'll hear most.</div>
+      </div>
+      <div class="deliverable-item">
+        <div class="deliverable-num">06</div>
+        <div class="deliverable-title">Full Handoff & Documentation</div>
+        <div class="deliverable-desc">Every piece of the system is documented so you or your team can run it without us. We train you on the tools and walk away only when you're confident.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-eyebrow reveal">How It Works</div>
+    <h2 class="section-h2 reveal">From zero to <span class="muted">running system.</span></h2>
+    <p class="section-body reveal">A structured four-week sprint. No ambiguity. You know what's happening every step of the way.</p>
+    <div class="process-stack reveal">
+      <div class="process-step">
+        <div class="process-step-num">01</div>
+        <div>
+          <div class="process-step-title">Discovery & Scoping</div>
+          <div class="process-step-desc">We spend the first week learning your business — offer, deal size, sales cycle, existing tools, and what's been tried. We scope the system around your specific situation, not a generic template.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">02</div>
+        <div>
+          <div class="process-step-title">ICP Definition & List Build</div>
+          <div class="process-step-desc">We define your ideal customer profile and build your first targeted prospect list. You approve the ICP before we pull a single contact.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">03</div>
+        <div>
+          <div class="process-step-title">CRM & Sequence Build</div>
+          <div class="process-step-desc">HubSpot gets stood up. Sequences get written. Scripts get drafted. Everything is built in parallel so we're not losing time sequencing work that can run simultaneously.</div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">04</div>
+        <div>
+          <div class="process-step-title">Review, Revise & Handoff</div>
+          <div class="process-step-desc">You review every deliverable. We revise until it's right. Then we walk you through the system live, answer every question, and hand you the keys.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIT -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-eyebrow reveal">Is This Right For You?</div>
+    <h2 class="section-h2 reveal">Built for founders <span class="muted">starting from scratch.</span></h2>
+    <p class="section-body reveal">This engagement works best in specific situations. Here's how to know if it's the right fit.</p>
+    <div class="fit-grid reveal">
+      <div class="fit-card">
+        <div class="fit-card-label">Good Fit</div>
+        <ul class="fit-list">
+          <li>You're pre-revenue or early-stage and haven't built outbound yet</li>
+          <li>You're selling on referrals and want to add a repeatable channel</li>
+          <li>You have a CRM but it's a mess and needs a full rebuild</li>
+          <li>You're about to hire an SDR and need the system ready first</li>
+          <li>You want to own the system after — not depend on an agency</li>
+        </ul>
+      </div>
+      <div class="fit-card">
+        <div class="fit-card-label">Not The Right Fit</div>
+        <ul class="fit-list">
+          <li>You have a working outbound system and just need optimization</li>
+          <li>You want someone to run the system for you long-term</li>
+          <li>You're pre-product and don't yet know who you're selling to</li>
+          <li>You need a full-time sales leader managing a team</li>
+          <li>You're looking for a quick lead-gen campaign, not infrastructure</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div style="padding: 7rem var(--gutter); border-bottom: 1px solid var(--imp-rule); text-align: center;">
+  <h2 style="font-size: clamp(32px,5vw,56px); font-weight:600; letter-spacing:-0.04em; line-height:1; margin-bottom:1.25rem;">Ready to build <span style="color:var(--imp-muted);">your sales engine?</span></h2>
+  <p style="font-size:17px; color:var(--imp-muted); margin-bottom:2.5rem;">Let's spend 30 minutes figuring out scope, timeline, and fit.</p>
+  <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" style="display:inline-flex;align-items:center;gap:10px;padding:15px 28px;border-radius:999px;background:var(--imp-slate);color:var(--imp-bone);font-size:15px;font-weight:500;transition:background 0.15s,transform 0.15s;" target="_blank" onmouseover="this.style.background='#000';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='var(--imp-slate)';this.style.transform=''">
+    Book a Discovery Call →
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="impello-preview.html" class="impello-logo impello-logo--inverse" aria-label="Impello">
+        <span class="impello-logo__mark">impello</span>
+        <span class="impello-logo__arrow" aria-hidden="true"><svg viewBox="0 0 36 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9 H32"/><path d="M24 2 L33 9 L24 16"/></svg></span>
+        <span class="impello-logo__cursor"></span>
+      </a>
+      <p class="footer-tagline">Outbound infrastructure for founders ready to move beyond <span class="accent">referrals</span>.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Engagements</h4>
+      <a href="sales-system-buildout.html">Sales System Buildout</a>
+      <a href="revops-retainer.html">RevOps Retainer</a>
+      <a href="fractional-sales-director.html">Fractional Sales Director</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">Approach</a>
+      <a href="#">Case studies</a>
+      <a href="#">Writing</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:hello@impelloagency.com">hello@impelloagency.com</a>
+      <a href="#">LinkedIn</a>
+      <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" target="_blank">Book a call</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Impello Agency. All rights reserved.</span>
+    <span class="footer-status"><span class="dot" aria-hidden="true"></span>Pipeline live · sequences running</span>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
