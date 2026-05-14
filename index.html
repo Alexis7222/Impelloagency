@@ -280,6 +280,23 @@ nav {
   .nav-link { display: none; }
 }
 
+/* ── 06 Origin ── */
+.origin-section { background: var(--imp-slate-2); padding: 120px var(--gutter); text-align: center; }
+.origin-label { font-family: var(--imp-mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--imp-amber-2); display: block; }
+.origin-word { font-family: var(--imp-display); font-size: 56px; font-weight: 600; letter-spacing: -0.04em; color: var(--imp-bone); margin-top: 24px; }
+.origin-def { font-family: var(--imp-display); font-style: italic; font-size: 16px; color: rgba(243,236,221,0.6); margin-top: 12px; }
+.origin-divider { width: 60px; height: 1px; background: var(--imp-amber-2); border: none; margin: 64px auto; }
+.origin-body { max-width: 600px; margin: 0 auto; }
+.origin-body p { font-size: 18px; color: var(--imp-bone); line-height: 1.7; }
+.origin-body p + p { margin-top: 24px; }
+.origin-close { font-family: var(--imp-display); font-size: 22px; font-weight: 500; font-style: italic; letter-spacing: -0.02em; color: var(--imp-amber-2); max-width: 560px; margin: 56px auto 0; }
+@media (max-width: 960px) {
+  .origin-section { padding: 80px var(--gutter); }
+  .origin-word { font-size: 40px; }
+  .origin-body p { font-size: 16px; }
+  .origin-close { font-size: 18px; }
+}
+
 /* ── Founder banner ── */
 .impello-founder-banner {
   --ifb-bg:            #f3ecdd;
@@ -621,8 +638,24 @@ nav {
   </div>
 </section>
 
+<section id="origin" class="origin-section">
+  <div style="max-width: 720px; margin: 0 auto;">
+    <span class="origin-label">06 &middot; Origin</span>
+    <h2 class="origin-word">im&middot;pel&middot;l&#333;</h2>
+    <p class="origin-def">Latin, verb. From in- (into) + pell&#333; (to push). To set in motion.</p>
+    <hr class="origin-divider" aria-hidden="true">
+    <div class="origin-body">
+      <p>I started Impello because I kept watching the same thing happen. A founder with a real product. Real customers. A business that worked. And a pipeline held together by referrals and luck.</p>
+      <p>Four years ago I was closing for a founder who burned through real money because the pipeline wasn&rsquo;t built and the SOPs didn&rsquo;t exist. He had the demand. He just had no system underneath it. Watching that &mdash; and realizing how often it happens &mdash; is what made me decide to build the thing that should have been there.</p>
+      <p>Referrals aren&rsquo;t a strategy. They&rsquo;re a stroke of luck you can&rsquo;t repeat on demand. The minute the network goes quiet, so does the revenue. Most of the founders I work with already know this. They just haven&rsquo;t had the time, the budget, or the right person to build the alternative.</p>
+      <p>Impello is the alternative. The name is the Latin root of the word impulse &mdash; the force that sets something in motion that wasn&rsquo;t moving before. That&rsquo;s the work. Not magic. Not hustle. Just the system that turns a business that runs on relationships into a business that runs on its own.</p>
+    </div>
+    <p class="origin-close">Stop waiting on referrals. Start setting things in motion.</p>
+  </div>
+</section>
+
 <section class="section" id="pricing">
-  <div class="section-eyebrow reveal">06 &middot; Pricing</div>
+  <div class="section-eyebrow reveal">07 &middot; Pricing</div>
   <h2 class="section-head reveal">Simple, <span style="color:var(--imp-muted)">transparent pricing.</span></h2>
   <p class="section-body reveal" style="max-width:540px; margin-bottom:3rem;">Every engagement is scoped to your stage and goals. These are starting points &mdash; book a call and we'll dial in exactly what you need.</p>
   <div class="pricing-grid reveal">
