@@ -437,7 +437,6 @@ nav {
   padding: 56px var(--gutter);
   border-top: 1px solid var(--imp-rule);
   border-bottom: 1px solid var(--imp-rule);
-  overflow: hidden;
   background: #fff;
 }
 .trusted-label {
@@ -449,35 +448,48 @@ nav {
   color: var(--imp-muted);
   margin-bottom: 2.5rem;
 }
+.trusted-carousel {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.trusted-arrow {
+  flex-shrink: 0;
+  width: 40px; height: 40px;
+  border: 1px solid var(--imp-rule-2);
+  border-radius: 50%;
+  background: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+  transition: border-color 0.2s, background 0.2s;
+  color: var(--imp-slate);
+}
+.trusted-arrow:hover { border-color: var(--imp-slate); background: var(--imp-slate); color: var(--imp-bone); }
+.trusted-arrow svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .trusted-track-wrap {
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  flex: 1;
 }
 .trusted-track {
   display: flex;
   align-items: center;
-  gap: 5rem;
-  animation: trustedScroll 36s linear infinite;
+  gap: 4rem;
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
   width: max-content;
 }
-.trusted-track:hover { animation-play-state: paused; }
 .trusted-name {
   font-family: var(--imp-display);
   font-size: 17px;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--imp-slate);
-  opacity: 0.22;
+  opacity: 0.25;
   white-space: nowrap;
-  transition: opacity 0.2s;
   text-transform: uppercase;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
 }
-.trusted-name:hover { opacity: 0.7; }
-@keyframes trustedScroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
+.trusted-name.is-active { opacity: 0.9; }
 </style>
 </head>
 <body>
@@ -585,27 +597,26 @@ nav {
 
 <section class="trusted-section" aria-label="Trusted by">
   <p class="trusted-label">Founders who trust the system</p>
-  <div class="trusted-track-wrap">
-    <div class="trusted-track">
-      <span class="trusted-name">Aloha Technology</span>
-      <span class="trusted-name">Advark</span>
-      <span class="trusted-name">Altir</span>
-      <span class="trusted-name">Speech Blubs</span>
-      <span class="trusted-name">Alderwood Wholesale Eggs</span>
-      <span class="trusted-name">Reasonate Studio</span>
-      <span class="trusted-name">Kew Data</span>
-      <span class="trusted-name">Practice Management Consultants</span>
-      <span class="trusted-name">Ready Set Mushrooms</span>
-      <span class="trusted-name">Aloha Technology</span>
-      <span class="trusted-name">Advark</span>
-      <span class="trusted-name">Altir</span>
-      <span class="trusted-name">Speech Blubs</span>
-      <span class="trusted-name">Alderwood Wholesale Eggs</span>
-      <span class="trusted-name">Reasonate Studio</span>
-      <span class="trusted-name">Kew Data</span>
-      <span class="trusted-name">Practice Management Consultants</span>
-      <span class="trusted-name">Ready Set Mushrooms</span>
+  <div class="trusted-carousel">
+    <button class="trusted-arrow" id="trustedPrev" aria-label="Previous">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="trusted-track-wrap">
+      <div class="trusted-track" id="trustedTrack">
+        <span class="trusted-name is-active">Aloha Technology</span>
+        <span class="trusted-name">Advark</span>
+        <span class="trusted-name">Altir</span>
+        <span class="trusted-name">Speech Blubs</span>
+        <span class="trusted-name">Alderwood Wholesale Eggs</span>
+        <span class="trusted-name">Reasonate Studio</span>
+        <span class="trusted-name">Kew Data</span>
+        <span class="trusted-name">Practice Management Consultants</span>
+        <span class="trusted-name">Ready Set Mushrooms</span>
+      </div>
     </div>
+    <button class="trusted-arrow" id="trustedNext" aria-label="Next">
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
   </div>
 </section>
 <section class="section" id="approach">
@@ -832,6 +843,25 @@ nav {
     el.addEventListener('mouseenter', () => ring.classList.add('is-hovering'));
     el.addEventListener('mouseleave', () => ring.classList.remove('is-hovering'));
   });
+
+  // Trusted-by carousel
+  (function() {
+    const track = document.getElementById('trustedTrack');
+    const items = Array.from(track.querySelectorAll('.trusted-name'));
+    const wrap = track.parentElement;
+    let current = 0;
+    function goTo(idx) {
+      items[current].classList.remove('is-active');
+      current = (idx + items.length) % items.length;
+      items[current].classList.add('is-active');
+      const itemWidth = items[0].offsetWidth + 64;
+      const wrapCenter = wrap.offsetWidth / 2;
+      const offset = items[current].offsetLeft - wrapCenter + items[current].offsetWidth / 2;
+      track.style.transform = 'translateX(-' + Math.max(0, offset) + 'px)';
+    }
+    document.getElementById('trustedPrev').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('trustedNext').addEventListener('click', () => goTo(current + 1));
+  })();
 </script>
 </body>
 </html>
