@@ -568,8 +568,8 @@ nav {
     <span class="impello-logo__cursor"></span>
   </a>
   <div class="nav-right">
-    <a href="#proof" class="nav-link">Work</a>
-    <a href="#services" class="nav-link">Pricing</a>
+    <a href="#" class="nav-link" data-scroll="proof">Work</a>
+    <a href="#" class="nav-link" data-scroll="services">Pricing</a>
     <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="nav-btn" target="_blank">Let's Talk</a>
   </div>
 </nav>
@@ -1104,6 +1104,15 @@ nav {
     }, { threshold: 0.5 });
     vcards.forEach(card => vobs.observe(card));
   })();
+
+  // Hash-free smooth scroll for nav links
+  document.querySelectorAll('[data-scroll]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.getElementById(this.dataset.scroll);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 </script>
 </body>
 </html>
