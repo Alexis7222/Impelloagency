@@ -553,38 +553,46 @@ nav {
 }
 
 /* -- Hero two-column grid -- */
-.hero-inner.hero-grid { display: grid; grid-template-columns: 1fr 520px; gap: 3rem; align-items: center; }
+.hero-inner.hero-grid { display: grid; grid-template-columns: 1fr 600px; gap: 3rem; align-items: center; }
 .hero-right { position: relative; z-index: 2; }
 /* -- Hero slider -- */
-.hs-wrap { position: relative; width: 100%; overflow: hidden; border-radius: 14px; min-height: 400px; background: #060d1c; border: 1px solid rgba(55,138,221,0.15); box-shadow: 0 24px 64px rgba(0,0,0,0.4); }
-.hs-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.7s ease; display: flex; align-items: center; padding: 36px 28px 64px; gap: 24px; }
+.hs-wrap { position: relative; width: 100%; overflow: hidden; border-radius: 14px; min-height: 440px; background: #060d1c; border: 1px solid rgba(55,138,221,0.15); box-shadow: 0 24px 64px rgba(0,0,0,0.4); transition: opacity 0.4s ease; }
+.hs-wrap:hover { opacity: 0.88; }
+.hs-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.75s ease; display: flex; align-items: center; padding: 40px 36px 68px; gap: 28px; }
 .hs-slide.active { opacity: 1; }
 .hs-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
 .hs-overlay { position: absolute; inset: 0; z-index: 1; }
-.hs-left { flex: 1; min-width: 0; position: relative; z-index: 2; }
-.hs-right { width: 196px; flex-shrink: 0; position: relative; z-index: 2; }
-.hs-viz { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; }
-.hs-viz-label { font-family: var(--imp-mono); font-size: 9px; color: #6A9AB8; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
-.hs-tag { font-family: var(--imp-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: #93C5E8; margin-bottom: 12px; }
-.hs-headline { font-family: var(--imp-display); font-size: 21px; font-weight: 700; line-height: 1.25; color: #F0F6FC; margin-bottom: 12px; letter-spacing: -0.03em; }
-.hs-stats { display: flex; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
-.hs-stat-num { font-family: var(--imp-display); font-size: 15px; font-weight: 700; color: #F0F6FC; }
-.hs-stat-label { font-family: var(--imp-mono); font-size: 8px; color: #6A9AB8; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px; }
-.hs-sub { font-family: var(--imp-display); font-size: 12.5px; color: #B8D4E8; line-height: 1.62; margin-bottom: 18px; }
-.hs-cta { display: inline-flex; align-items: center; gap: 7px; font-family: var(--imp-display); font-size: 12px; font-weight: 500; color: #F0F6FC; background: rgba(55,138,221,0.18); border: 0.5px solid rgba(55,138,221,0.5); border-radius: 8px; padding: 8px 14px; text-decoration: none; transition: background 0.2s; }
-.hs-cta:hover { background: rgba(55,138,221,0.36); }
-.hs-cta svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.hs-dots { position: absolute; bottom: 18px; left: 28px; display: flex; gap: 8px; z-index: 10; }
+.hs-left { flex: 1; min-width: 0; position: relative; z-index: 2; transition: opacity 0.6s ease, transform 0.6s ease; }
+.hs-right { width: 290px; flex-shrink: 0; position: relative; z-index: 2; transition: opacity 0.6s ease, transform 0.6s ease; }
+.hs-slide:not(.active) .hs-left, .hs-slide:not(.active) .hs-right { opacity: 0; transform: translateY(12px); }
+.hs-slide.active .hs-left { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
+.hs-slide.active .hs-right { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+.hs-viz { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; position: relative; overflow: hidden; }
+.hs-viz::before { content: ''; position: absolute; width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle,rgba(127,119,221,0.1) 0%,transparent 70%); top: -24px; right: -24px; pointer-events: none; animation: hsOrbFloat 7s ease-in-out infinite; }
+.hs-viz::after { content: ''; position: absolute; width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(circle,rgba(55,138,221,0.08) 0%,transparent 70%); bottom: -16px; left: -16px; pointer-events: none; animation: hsOrbFloat 9s ease-in-out infinite reverse; }
+@keyframes hsOrbFloat { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(5px,-7px) scale(1.06); } }
+.hs-viz-label { font-family: var(--imp-mono); font-size: 9px; color: #6A9AB8; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; position: relative; z-index: 1; }
+.hs-viz svg { display: block; width: 100%; position: relative; z-index: 1; }
+.hs-tag { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #93C5E8; margin-bottom: 16px; }
+.hs-headline { font-family: var(--imp-display); font-size: 22px; font-weight: 600; line-height: 1.28; color: #F0F6FC; margin-bottom: 16px; letter-spacing: -0.02em; }
+.hs-stats { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.hs-stat-num { font-family: var(--imp-display); font-size: 18px; font-weight: 600; color: #F0F6FC; }
+.hs-stat-label { font-family: var(--imp-mono); font-size: 9px; color: #6A9AB8; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px; }
+.hs-sub { font-family: var(--imp-display); font-size: 13px; color: #B8D4E8; line-height: 1.68; margin-bottom: 22px; }
+.hs-cta { display: inline-flex; align-items: center; gap: 8px; font-family: var(--imp-display); font-size: 13px; font-weight: 500; color: #F0F6FC; background: rgba(55,138,221,0.18); border: 0.5px solid rgba(55,138,221,0.5); border-radius: 8px; padding: 10px 18px; text-decoration: none; transition: background 0.2s; }
+.hs-cta:hover { background: rgba(55,138,221,0.34); }
+.hs-cta svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.hs-dots { position: absolute; bottom: 20px; left: 36px; display: flex; gap: 8px; z-index: 10; }
 .hs-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); border: none; padding: 0; transition: background 0.3s, width 0.3s; }
 .hs-dot.active { width: 20px; border-radius: 3px; background: #378ADD; }
-.hs-arrows { position: absolute; bottom: 12px; right: 16px; display: flex; gap: 8px; z-index: 10; }
-.hs-arrow { width: 28px; height: 28px; border-radius: 8px; border: 0.5px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.3); color: #B8D4E8; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
-.hs-arrow:hover { background: rgba(0,0,0,0.55); color: #F0F6FC; }
-.hs-arrow svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.hs-num { position: absolute; top: 16px; right: 18px; font-family: var(--imp-mono); font-size: 10px; color: rgba(255,255,255,0.2); z-index: 10; letter-spacing: 0.06em; }
+.hs-arrows { position: absolute; bottom: 12px; right: 20px; display: flex; gap: 8px; z-index: 10; }
+.hs-arrow { width: 32px; height: 32px; border-radius: 8px; border: 0.5px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.3); color: #B8D4E8; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.hs-arrow:hover { background: rgba(0,0,0,0.5); color: #F0F6FC; }
+.hs-arrow svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.hs-num { position: absolute; top: 22px; right: 26px; font-family: var(--imp-mono); font-size: 11px; color: rgba(255,255,255,0.2); z-index: 10; letter-spacing: 0.06em; }
 .hs-bar { position: absolute; bottom: 0; left: 0; height: 2px; background: #378ADD; border-radius: 0 2px 2px 0; z-index: 10; }
-@media (max-width: 1160px) { .hero-inner.hero-grid { grid-template-columns: 1fr; gap: 2rem; } .hs-wrap { max-width: 620px; } }
-@media (max-width: 640px) { .hs-slide { flex-direction: column; padding: 28px 22px 64px; } .hs-right { width: 100%; } }
+@media (max-width: 1200px) { .hero-inner.hero-grid { grid-template-columns: 1fr; gap: 2rem; } .hs-wrap { max-width: 660px; } }
+@media (max-width: 680px) { .hs-slide { flex-direction: column; padding: 40px 28px 68px; gap: 24px; } .hs-right { width: 100%; } .hs-headline { font-size: 18px; } }
 </style>
 </head>
 <body>
@@ -613,38 +621,28 @@ nav {
 <section class="hero">
   <div class="hero-inner hero-grid">
     <div class="hero-left">
-      <div class="hero-eyebrow">
-        <span class="pulse" aria-hidden="true"></span>
-        RevOps &amp; Fractional Sales &middot; Building outbound systems
-      </div>
-      <h1 class="hero-headline">
-        Referrals aren&rsquo;t<br>a <span class="accent">sustainable<br>sales strategy.</span>
-      </h1>
+      <div class="hero-eyebrow"><span class="pulse" aria-hidden="true"></span>RevOps &amp; Fractional Sales &middot; Building outbound systems</div>
+      <h1 class="hero-headline">Referrals aren&rsquo;t<br>a <span class="accent">sustainable<br>sales strategy.</span></h1>
       <div class="hero-bottom">
         <p class="hero-sub">We build outbound sales systems for early-stage founders who are ready to stop relying on warm intros. CRM, sequences, pipeline, reps. The whole engine.</p>
-        <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="hero-cta" target="_blank">
-          Book a consultation
-          <svg viewBox="0 0 14 14"><path d="M2 7h10M7 2l5 5-5 5"/></svg>
-        </a>
+        <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="hero-cta" target="_blank">Book a consultation<svg viewBox="0 0 14 14"><path d="M2 7h10M7 2l5 5-5 5"/></svg></a>
       </div>
     </div>
     <div class="hero-right">
       <div class="hs-wrap" id="heroSlider">
-
-        <!-- Slide 1: Pipeline funnel -->
+        <!-- SLIDE 1 -->
         <div class="hs-slide active" data-hs="0">
-          <svg class="hs-bg" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="700" height="400" fill="#060d1c"/><circle cx="580" cy="80" r="180" fill="#0d2040" opacity="0.6"/><circle cx="620" cy="340" r="120" fill="#081a30" opacity="0.5"/><line x1="0" y1="60" x2="700" y2="60" stroke="#1a3050" stroke-width="0.5"/><line x1="0" y1="160" x2="700" y2="160" stroke="#1a3050" stroke-width="0.5"/><line x1="0" y1="260" x2="700" y2="260" stroke="#1a3050" stroke-width="0.5"/><line x1="0" y1="360" x2="700" y2="360" stroke="#1a3050" stroke-width="0.5"/><line x1="100" y1="0" x2="100" y2="400" stroke="#1a3050" stroke-width="0.5"/><line x1="250" y1="0" x2="250" y2="400" stroke="#1a3050" stroke-width="0.5"/><line x1="400" y1="0" x2="400" y2="400" stroke="#1a3050" stroke-width="0.5"/><line x1="550" y1="0" x2="550" y2="400" stroke="#1a3050" stroke-width="0.5"/></svg>
-          <div class="hs-overlay" style="background:linear-gradient(110deg,rgba(6,13,28,0.95) 0%,rgba(6,13,28,0.7) 55%,rgba(6,13,28,0.08) 100%);"></div>
+          <svg class="hs-bg" viewBox="0 0 960 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="960" height="420" fill="#060d1c"/><circle cx="760" cy="80" r="220" fill="#0d2040" opacity="0.55"/><circle cx="820" cy="380" r="140" fill="#081a30" opacity="0.45"/><line x1="0" y1="70" x2="960" y2="70" stroke="#1a3050" stroke-width="0.5"/><line x1="0" y1="170" x2="960" y2="170" stroke="#1a3050" stroke-width="0.5"/><line x1="0" y1="270" x2="960" y2="270" stroke="#1a3050" stroke-width="0.5"/><line x1="0" y1="370" x2="960" y2="370" stroke="#1a3050" stroke-width="0.5"/><line x1="140" y1="0" x2="140" y2="420" stroke="#1a3050" stroke-width="0.5"/><line x1="340" y1="0" x2="340" y2="420" stroke="#1a3050" stroke-width="0.5"/><line x1="540" y1="0" x2="540" y2="420" stroke="#1a3050" stroke-width="0.5"/><line x1="740" y1="0" x2="740" y2="420" stroke="#1a3050" stroke-width="0.5"/></svg>
+          <div class="hs-overlay" style="background:linear-gradient(110deg,rgba(6,13,28,0.97) 0%,rgba(6,13,28,0.75) 52%,rgba(6,13,28,0.1) 100%);"></div>
           <div class="hs-left">
             <div class="hs-tag">Outbound sales systems</div>
             <div class="hs-headline">Stop relying on referrals.<br>Start building pipeline.</div>
             <div class="hs-stats">
               <div><div class="hs-stat-num">400+</div><div class="hs-stat-label">contacts called</div></div>
-              <div><div class="hs-stat-num">25%</div><div class="hs-stat-label">conversion</div></div>
-              <div><div class="hs-stat-num">$15k</div><div class="hs-stat-label">avg engagement</div></div>
+              <div><div class="hs-stat-num">25%</div><div class="hs-stat-label">conversion rate</div></div>
             </div>
-            <div class="hs-sub">Impello builds outbound sales systems for founders ready to grow predictably &mdash; not accidentally.</div>
-            <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="hs-cta" target="_blank">Book a consultation <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            <div class="hs-sub">Impello builds outbound sales systems for early-stage founders ready to grow predictably.</div>
+            <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="hs-cta" target="_blank">See how it works <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>
           <div class="hs-right">
             <div class="hs-viz">
@@ -661,25 +659,25 @@ nav {
             </div>
           </div>
         </div>
-
-        <!-- Slide 2: Email sequence -->
+        <!-- SLIDE 2 -->
         <div class="hs-slide" data-hs="1">
-          <svg class="hs-bg" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="700" height="400" fill="#04120e"/><circle cx="560" cy="100" r="200" fill="#082820" opacity="0.5"/><circle cx="640" cy="360" r="130" fill="#061a14" opacity="0.6"/><line x1="0" y1="80" x2="700" y2="80" stroke="#0d2820" stroke-width="0.5"/><line x1="0" y1="180" x2="700" y2="180" stroke="#0d2820" stroke-width="0.5"/><line x1="0" y1="280" x2="700" y2="280" stroke="#0d2820" stroke-width="0.5"/><line x1="0" y1="380" x2="700" y2="380" stroke="#0d2820" stroke-width="0.5"/><line x1="120" y1="0" x2="120" y2="400" stroke="#0d2820" stroke-width="0.5"/><line x1="280" y1="0" x2="280" y2="400" stroke="#0d2820" stroke-width="0.5"/><line x1="440" y1="0" x2="440" y2="400" stroke="#0d2820" stroke-width="0.5"/><line x1="600" y1="0" x2="600" y2="400" stroke="#0d2820" stroke-width="0.5"/></svg>
-          <div class="hs-overlay" style="background:linear-gradient(110deg,rgba(4,12,10,0.96) 0%,rgba(4,12,10,0.72) 55%,rgba(4,12,10,0.08) 100%);"></div>
+          <svg class="hs-bg" viewBox="0 0 960 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="960" height="420" fill="#04120e"/><circle cx="740" cy="100" r="240" fill="#082820" opacity="0.5"/><circle cx="840" cy="380" r="150" fill="#061a14" opacity="0.55"/><line x1="0" y1="80" x2="960" y2="80" stroke="#0d2820" stroke-width="0.5"/><line x1="0" y1="190" x2="960" y2="190" stroke="#0d2820" stroke-width="0.5"/><line x1="0" y1="300" x2="960" y2="300" stroke="#0d2820" stroke-width="0.5"/><line x1="0" y1="400" x2="960" y2="400" stroke="#0d2820" stroke-width="0.5"/><line x1="150" y1="0" x2="150" y2="420" stroke="#0d2820" stroke-width="0.5"/><line x1="360" y1="0" x2="360" y2="420" stroke="#0d2820" stroke-width="0.5"/><line x1="570" y1="0" x2="570" y2="420" stroke="#0d2820" stroke-width="0.5"/><line x1="780" y1="0" x2="780" y2="420" stroke="#0d2820" stroke-width="0.5"/></svg>
+          <div class="hs-overlay" style="background:linear-gradient(110deg,rgba(4,12,10,0.97) 0%,rgba(4,12,10,0.75) 52%,rgba(4,12,10,0.1) 100%);"></div>
           <div class="hs-left">
             <div class="hs-tag">RevOps &amp; outbound buildout</div>
             <div class="hs-headline">We build the engine.<br>You drive the growth.</div>
             <div class="hs-stats">
               <div><div class="hs-stat-num">HubSpot</div><div class="hs-stat-label">CRM setup</div></div>
+              <div><div class="hs-stat-num">Salesforce</div><div class="hs-stat-label">migration ready</div></div>
               <div><div class="hs-stat-num">Clay</div><div class="hs-stat-label">enrichment</div></div>
               <div><div class="hs-stat-num">50&ndash;75</div><div class="hs-stat-label">contacts/wk</div></div>
             </div>
-            <div class="hs-sub">From ICP definition to HubSpot setup, cold sequences to SDR hiring &mdash; a complete system, not a deck of recommendations.</div>
+            <div class="hs-sub">From ICP definition to HubSpot setup, cold sequences to SDR hiring and a complete outbound system instead of a deck of recommendations that take days to integrate.</div>
             <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="hs-cta" target="_blank">Explore the buildout <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>
           <div class="hs-right">
             <div class="hs-viz">
-              <div class="hs-viz-label">Sequence performance</div>
+              <div class="hs-viz-label">Outbound sequence performance</div>
               <svg viewBox="0 0 220 190" width="100%" xmlns="http://www.w3.org/2000/svg">
                 <text x="8" y="28" fill="#6A9AB8" font-size="9" font-family="sans-serif">Email 1 &#183; Day 1</text>
                 <rect x="8" y="34" width="148" height="12" rx="2" fill="#1D9E75" opacity="0.85"/><text x="162" y="44" fill="#6DDFC0" font-size="9" font-family="sans-serif">62% open</text>
@@ -696,11 +694,10 @@ nav {
             </div>
           </div>
         </div>
-
-        <!-- Slide 3: Revenue growth -->
+        <!-- SLIDE 3 -->
         <div class="hs-slide" data-hs="2">
-          <svg class="hs-bg" viewBox="0 0 700 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="700" height="400" fill="#0e0618"/><circle cx="570" cy="90" r="190" fill="#1a0a2e" opacity="0.5"/><circle cx="630" cy="350" r="140" fill="#100618" opacity="0.6"/><line x1="0" y1="70" x2="700" y2="70" stroke="#1e0a30" stroke-width="0.5"/><line x1="0" y1="170" x2="700" y2="170" stroke="#1e0a30" stroke-width="0.5"/><line x1="0" y1="270" x2="700" y2="270" stroke="#1e0a30" stroke-width="0.5"/><line x1="0" y1="370" x2="700" y2="370" stroke="#1e0a30" stroke-width="0.5"/><line x1="110" y1="0" x2="110" y2="400" stroke="#1e0a30" stroke-width="0.5"/><line x1="270" y1="0" x2="270" y2="400" stroke="#1e0a30" stroke-width="0.5"/><line x1="430" y1="0" x2="430" y2="400" stroke="#1e0a30" stroke-width="0.5"/><line x1="590" y1="0" x2="590" y2="400" stroke="#1e0a30" stroke-width="0.5"/></svg>
-          <div class="hs-overlay" style="background:linear-gradient(110deg,rgba(10,4,20,0.96) 0%,rgba(10,4,20,0.72) 55%,rgba(10,4,20,0.08) 100%);"></div>
+          <svg class="hs-bg" viewBox="0 0 960 420" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="960" height="420" fill="#0e0618"/><circle cx="750" cy="90" r="220" fill="#1a0a2e" opacity="0.5"/><circle cx="840" cy="370" r="160" fill="#100618" opacity="0.55"/><line x1="0" y1="70" x2="960" y2="70" stroke="#1e0a30" stroke-width="0.5"/><line x1="0" y1="180" x2="960" y2="180" stroke="#1e0a30" stroke-width="0.5"/><line x1="0" y1="290" x2="960" y2="290" stroke="#1e0a30" stroke-width="0.5"/><line x1="0" y1="390" x2="960" y2="390" stroke="#1e0a30" stroke-width="0.5"/><line x1="130" y1="0" x2="130" y2="420" stroke="#1e0a30" stroke-width="0.5"/><line x1="320" y1="0" x2="320" y2="420" stroke="#1e0a30" stroke-width="0.5"/><line x1="510" y1="0" x2="510" y2="420" stroke="#1e0a30" stroke-width="0.5"/><line x1="700" y1="0" x2="700" y2="420" stroke="#1e0a30" stroke-width="0.5"/></svg>
+          <div class="hs-overlay" style="background:linear-gradient(110deg,rgba(10,4,20,0.97) 0%,rgba(10,4,20,0.75) 52%,rgba(10,4,20,0.1) 100%);"></div>
           <div class="hs-left">
             <div class="hs-tag">Fractional sales director</div>
             <div class="hs-headline">Senior sales leadership,<br>without the full-time cost.</div>
@@ -709,35 +706,38 @@ nav {
               <div><div class="hs-stat-num">Wk 1</div><div class="hs-stat-label">results start</div></div>
               <div><div class="hs-stat-num">0&rarr;1</div><div class="hs-stat-label">outbound built</div></div>
             </div>
-            <div class="hs-sub">A fractional sales director who&rsquo;s built outbound from scratch &mdash; real results from week one, fraction of a VP salary.</div>
+            <div class="hs-sub">Get a fractional sales director who&rsquo;s built outbound from scratch with results from week one, for a fraction of a VP of Sales.</div>
             <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="hs-cta" target="_blank">Learn more <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>
           <div class="hs-right">
             <div class="hs-viz">
-              <div class="hs-viz-label">Revenue growth &#183; client avg</div>
-              <svg viewBox="0 0 220 180" width="100%" xmlns="http://www.w3.org/2000/svg">
-                <line x1="24" y1="10" x2="24" y2="150" stroke="#2a1a40" stroke-width="1"/><line x1="24" y1="150" x2="210" y2="150" stroke="#2a1a40" stroke-width="1"/>
-                <text x="4" y="150" fill="#6A9AB8" font-size="8" font-family="sans-serif">$0</text><text x="4" y="110" fill="#6A9AB8" font-size="8" font-family="sans-serif">$5k</text><text x="4" y="70" fill="#6A9AB8" font-size="8" font-family="sans-serif">$10k</text><text x="4" y="30" fill="#6A9AB8" font-size="8" font-family="sans-serif">$15k</text>
-                <line x1="24" y1="110" x2="210" y2="110" stroke="#2a1a40" stroke-width="0.5" stroke-dasharray="3,3"/><line x1="24" y1="70" x2="210" y2="70" stroke="#2a1a40" stroke-width="0.5" stroke-dasharray="3,3"/><line x1="24" y1="30" x2="210" y2="30" stroke="#2a1a40" stroke-width="0.5" stroke-dasharray="3,3"/>
-                <polyline points="24,148 55,142 85,130 115,108 145,78 175,52 205,28" fill="none" stroke="#7F77DD" stroke-width="2" stroke-linejoin="round"/>
-                <circle cx="24" cy="148" r="3" fill="#7F77DD"/><circle cx="55" cy="142" r="3" fill="#7F77DD"/><circle cx="85" cy="130" r="3" fill="#7F77DD"/><circle cx="115" cy="108" r="3" fill="#7F77DD"/><circle cx="145" cy="78" r="3" fill="#7F77DD"/><circle cx="175" cy="52" r="3" fill="#7F77DD"/><circle cx="205" cy="28" r="3" fill="#B8A8F0"/>
-                <text x="28" y="163" fill="#4a3a60" font-size="8" font-family="sans-serif">M1</text><text x="58" y="163" fill="#4a3a60" font-size="8" font-family="sans-serif">M2</text><text x="88" y="163" fill="#4a3a60" font-size="8" font-family="sans-serif">M3</text><text x="118" y="163" fill="#4a3a60" font-size="8" font-family="sans-serif">M4</text><text x="148" y="163" fill="#4a3a60" font-size="8" font-family="sans-serif">M5</text><text x="178" y="163" fill="#4a3a60" font-size="8" font-family="sans-serif">M6</text>
-                <text x="190" y="22" fill="#B8A8F0" font-size="8" font-family="sans-serif">$15k</text>
+              <div class="hs-viz-label">Before &amp; after Impello</div>
+              <svg viewBox="0 0 280 196" width="100%" xmlns="http://www.w3.org/2000/svg">
+                <text x="62" y="13" text-anchor="middle" fill="#5a4a70" font-size="9" font-family="sans-serif">Before</text>
+                <rect x="8" y="18" width="106" height="15" rx="2" fill="#2a1a40" opacity="0.7"/><text x="61" y="29.5" text-anchor="middle" fill="#7F77DD" font-size="8.5" font-family="sans-serif">Referrals only</text>
+                <text x="12" y="56" fill="#4a3060" font-size="8" font-family="sans-serif">New leads/mo</text><text x="112" y="56" text-anchor="end" fill="#6a5a80" font-size="12" font-family="sans-serif">3&#8211;5</text>
+                <text x="12" y="82" fill="#4a3060" font-size="8" font-family="sans-serif">Pipeline value</text><text x="112" y="82" text-anchor="end" fill="#6a5a80" font-size="12" font-family="sans-serif">~$12k</text>
+                <text x="12" y="108" fill="#4a3060" font-size="8" font-family="sans-serif">Close rate</text><text x="112" y="108" text-anchor="end" fill="#6a5a80" font-size="12" font-family="sans-serif">unknown</text>
+                <text x="12" y="134" fill="#4a3060" font-size="8" font-family="sans-serif">Outbound seq.</text><text x="112" y="134" text-anchor="end" fill="#6a5a80" font-size="12" font-family="sans-serif">none</text>
+                <text x="12" y="160" fill="#4a3060" font-size="8" font-family="sans-serif">CRM</text><text x="112" y="160" text-anchor="end" fill="#6a5a80" font-size="12" font-family="sans-serif">spreadsheet</text>
+                <line x1="136" y1="14" x2="136" y2="168" stroke="#2a1a40" stroke-width="0.5"/>
+                <text x="136" y="97" text-anchor="middle" fill="#3a2a55" font-size="16" font-family="sans-serif">&#8594;</text>
+                <text x="210" y="13" text-anchor="middle" fill="#B8A8F0" font-size="9" font-family="sans-serif">After</text>
+                <rect x="148" y="18" width="124" height="15" rx="2" fill="#2a1a50" opacity="0.9"/><text x="210" y="29.5" text-anchor="middle" fill="#B8A8F0" font-size="8.5" font-family="sans-serif">Impello system</text>
+                <text x="152" y="56" fill="#7a6a90" font-size="8" font-family="sans-serif">New leads/mo</text><text x="272" y="56" text-anchor="end" fill="#B8A8F0" font-size="12" font-family="sans-serif">50&#8211;75</text>
+                <text x="152" y="82" fill="#7a6a90" font-size="8" font-family="sans-serif">Pipeline value</text><text x="272" y="82" text-anchor="end" fill="#B8A8F0" font-size="12" font-family="sans-serif">$80k+</text>
+                <text x="152" y="108" fill="#7a6a90" font-size="8" font-family="sans-serif">Close rate</text><text x="272" y="108" text-anchor="end" fill="#B8A8F0" font-size="12" font-family="sans-serif">25%</text>
+                <text x="152" y="134" fill="#7a6a90" font-size="8" font-family="sans-serif">Outbound seq.</text><text x="272" y="134" text-anchor="end" fill="#B8A8F0" font-size="12" font-family="sans-serif">3-step live</text>
+                <text x="152" y="160" fill="#7a6a90" font-size="8" font-family="sans-serif">CRM</text><text x="272" y="160" text-anchor="end" fill="#B8A8F0" font-size="12" font-family="sans-serif">HubSpot</text>
+                <line x1="8" y1="172" x2="272" y2="172" stroke="#2a1a40" stroke-width="0.5"/>
+                <text x="140" y="188" text-anchor="middle" fill="#7F77DD" font-size="9" font-family="sans-serif">Avg. time to first deal: 6 weeks</text>
               </svg>
             </div>
           </div>
         </div>
-
         <!-- Nav -->
-        <div class="hs-dots" id="hsDots">
-          <button class="hs-dot active" onclick="hsGoTo(0)" aria-label="Slide 1"></button>
-          <button class="hs-dot" onclick="hsGoTo(1)" aria-label="Slide 2"></button>
-          <button class="hs-dot" onclick="hsGoTo(2)" aria-label="Slide 3"></button>
-        </div>
-        <div class="hs-arrows">
-          <button class="hs-arrow" onclick="hsPrev()" aria-label="Prev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-          <button class="hs-arrow" onclick="hsNext()" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
-        </div>
+        <div class="hs-dots" id="hsDots"><button class="hs-dot active" onclick="hsGoTo(0)" aria-label="Slide 1"></button><button class="hs-dot" onclick="hsGoTo(1)" aria-label="Slide 2"></button><button class="hs-dot" onclick="hsGoTo(2)" aria-label="Slide 3"></button></div>
+        <div class="hs-arrows"><button class="hs-arrow" onclick="hsPrev()" aria-label="Prev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button><button class="hs-arrow" onclick="hsNext()" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button></div>
         <div class="hs-num" id="hsNum">01 / 03</div>
         <div class="hs-bar" id="hsBar"></div>
       </div>
@@ -1258,6 +1258,7 @@ nav {
   rsB();rsT();
   var w=document.getElementById('heroSlider');
   if(w){w.addEventListener('mouseenter',function(){clearTimeout(timer);});w.addEventListener('mouseleave',function(){rsT();});}
+  document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')hsPrev();if(e.key==='ArrowRight')hsNext();});
 })();
 </script></body>
 </html>
