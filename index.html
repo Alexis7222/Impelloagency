@@ -748,17 +748,17 @@ nav {
   reveals.forEach(el => io.observe(el));
 
   // Custom cursor
-  const cursorDot = document.getElementById('cursorDot');
-  const cursorRing = document.getElementById('cursorRing');
-  document.addEventListener('mousemove', e => {
-    cursorDot.style.left = e.clientX + 'px';
-    cursorDot.style.top = e.clientY + 'px';
-    cursorRing.style.left = e.clientX + 'px';
-    cursorRing.style.top = e.clientY + 'px';
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', (e) => {
+    dot.style.left = e.clientX - 4 + 'px';
+    dot.style.top = e.clientY - 4 + 'px';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
   });
   document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => cursorRing.classList.add('is-hovering'));
-    el.addEventListener('mouseleave', () => cursorRing.classList.remove('is-hovering'));
+    el.addEventListener('mouseenter', () => ring.classList.add('is-hovering'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('is-hovering'));
   });
 </script>
 </body>
