@@ -90,8 +90,8 @@ nav {
 /* ── Hero ── */
 .hero {
   position: relative; min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: calc(var(--nav-h) + 5rem) var(--gutter) 5rem;
+  display: flex; flex-direction: column; justify-content: flex-start;
+  padding: 3.5rem var(--gutter) 5rem;
   overflow: hidden;
 }
 .hero::before, .hero::after {
@@ -275,7 +275,7 @@ nav {
 @media (max-width: 640px) {
   nav { padding: 0 1.25rem; }
   .section { padding: 4rem 1.25rem; }
-  .hero { padding: calc(var(--nav-h) + 3.5rem) 1.25rem 3rem; }
+  .hero { padding: 2.5rem 1.25rem 3rem; }
   .hero-bottom { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
   .nav-link { display: none; }
 }
