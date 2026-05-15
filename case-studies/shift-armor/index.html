@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shift Armor &middot; Case Study &middot; Impello Agency</title>
+<meta name="description" content="How Impello built a full cold outbound system for Shift Armor &mdash; prospect list, cold calling campaign, scripts, SDR SOPs, and HubSpot integration.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --imp-bone: #f3ecdd; --imp-bone-2: #ede5d2;
+  --imp-slate: #1d2128; --imp-slate-2: #14171d;
+  --imp-amber: #c2761a; --imp-amber-2: #e8a13a;
+  --imp-muted: #7a766c;
+  --imp-rule: rgba(29,33,40,.10); --imp-rule-2: rgba(29,33,40,.22);
+  --imp-display: 'Inter Tight', -apple-system, system-ui, sans-serif;
+  --imp-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --gutter: clamp(1.5rem, 4vw, 3.5rem); --nav-h: 68px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--imp-display); background: var(--imp-bone); color: var(--imp-slate); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+* { cursor: none; }
+
+/* Cursor */
+.cursor-dot { width: 8px; height: 8px; background: #c2761a; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+.cursor-ring { width: 32px; height: 32px; border: 1.5px solid #c2761a; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease; }
+.cursor-ring.is-hovering { width: 48px; height: 48px; opacity: 0.5; }
+
+/* Logo */
+.impello-logo { display: inline-flex; align-items: center; gap: 8px; font-family: var(--imp-display); font-weight: 700; font-size: 18px; letter-spacing: -0.03em; color: var(--imp-slate); }
+.impello-logo__arrow svg { width: 28px; height: 14px; }
+.impello-logo__cursor { display: inline-block; width: 2px; height: 18px; background: var(--imp-amber); animation: blink 1s step-end infinite; }
+.impello-logo--inverse { color: var(--imp-bone); }
+.impello-logo--inverse .impello-logo__cursor { background: var(--imp-amber-2); }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Nav */
+nav { position: sticky; top: 0; z-index: 100; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter); background: rgba(243,236,221,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--imp-rule); }
+.nav-right { display: flex; align-items: center; gap: 2rem; }
+.nav-link { font-size: 13.5px; font-weight: 400; color: var(--imp-muted); letter-spacing: 0.02em; transition: color 0.2s; }
+.nav-link:hover, .nav-link.active { color: var(--imp-slate); }
+.nav-btn { font-size: 13px; font-weight: 500; color: var(--imp-bone); background: var(--imp-slate); padding: 9px 20px; border-radius: 999px; transition: background 0.15s; }
+.nav-btn:hover { background: #000; }
+
+/* Breadcrumb */
+.cs-breadcrumb { padding: 20px var(--gutter) 0; font-family: var(--imp-mono); font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--imp-muted); display: flex; align-items: center; gap: 8px; }
+.cs-breadcrumb a { color: var(--imp-amber); transition: opacity .15s; }
+.cs-breadcrumb a:hover { opacity: .75; }
+.cs-breadcrumb .sep { opacity: 0.35; }
+
+/* Hero */
+.cs-hero { padding: 64px var(--gutter) 72px; max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 340px; gap: 64px; align-items: end; border-bottom: 1px solid var(--imp-rule); }
+.cs-eyebrow { font-family: var(--imp-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--imp-amber); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.cs-eyebrow::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--imp-amber); flex-shrink: 0; }
+.cs-client-name { font-size: clamp(44px, 5.5vw, 80px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.96; margin-bottom: 20px; }
+.cs-client-name em { color: var(--imp-amber); font-style: normal; }
+.cs-tagline { font-size: 18px; color: var(--imp-muted); line-height: 1.58; max-width: 520px; }
+
+/* Meta card */
+.cs-meta-card { background: var(--imp-slate); border-radius: 14px; padding: 28px 28px 24px; color: var(--imp-bone); align-self: start; margin-top: 16px; }
+.cs-meta-row { padding: 12px 0; border-bottom: 1px solid rgba(243,236,221,.08); display: flex; flex-direction: column; gap: 4px; }
+.cs-meta-row:first-child { padding-top: 0; }
+.cs-meta-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.cs-meta-label { font-family: var(--imp-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(243,236,221,.4); }
+.cs-meta-value { font-size: 14px; font-weight: 500; color: rgba(243,236,221,.9); line-height: 1.45; }
+.cs-meta-value strong { color: var(--imp-amber-2); font-weight: 600; }
+
+/* Body */
+.cs-body { max-width: 1280px; margin: 0 auto; }
+.cs-two-col { display: grid; grid-template-columns: 220px 1fr; gap: 64px; align-items: start; }
+.cs-section-label { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--imp-amber); padding-top: 6px; }
+
+/* Challenge */
+.cs-challenge { padding: 72px var(--gutter); border-bottom: 1px solid var(--imp-rule); }
+.cs-challenge-h2 { font-size: 36px; font-weight: 700; letter-spacing: -0.035em; line-height: 1.08; margin-bottom: 20px; }
+.cs-challenge-body { font-size: 16px; color: var(--imp-muted); line-height: 1.72; max-width: 640px; }
+.cs-challenge-body p + p { margin-top: 14px; }
+
+/* Deliverables */
+.cs-deliverables { padding: 72px var(--gutter); border-bottom: 1px solid var(--imp-rule); }
+.cs-del-header { margin-bottom: 48px; }
+.cs-del-intro { font-size: 16px; color: var(--imp-muted); line-height: 1.7; max-width: 600px; padding-top: 6px; }
+.cs-del-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.del-card { border: 1px solid var(--imp-rule-2); border-radius: 14px; padding: 28px 26px; background: rgba(255,255,255,0.5); display: flex; flex-direction: column; gap: 16px; transition: border-color .2s, transform .2s; position: relative; overflow: hidden; }
+.del-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--imp-amber); opacity: 0; transition: opacity .2s; }
+.del-card:hover { border-color: rgba(194,118,26,.3); transform: translateY(-2px); }
+.del-card:hover::before { opacity: 1; }
+.del-num { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.14em; color: var(--imp-amber); text-transform: uppercase; }
+.del-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(194,118,26,.1); display: flex; align-items: center; justify-content: center; }
+.del-icon svg { width: 20px; height: 20px; stroke: var(--imp-amber); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.del-title { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; }
+.del-desc { font-size: 13.5px; color: var(--imp-muted); line-height: 1.65; flex: 1; }
+.del-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.del-tag { font-family: var(--imp-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; background: rgba(29,33,40,.06); color: var(--imp-muted); }
+
+/* Prospect dark band */
+.cs-prospect { padding: 72px var(--gutter); border-bottom: 1px solid var(--imp-rule); background: var(--imp-slate); color: var(--imp-bone); position: relative; overflow: hidden; }
+.cs-prospect::before { content: ''; position: absolute; top: -80px; right: -80px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(232,161,58,.12), transparent 65%); pointer-events: none; }
+.cs-prospect-inner { position: relative; z-index: 1; }
+.cs-prospect-label { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--imp-amber-2); padding-top: 6px; }
+.cs-prospect-intro { font-size: 16px; color: rgba(243,236,221,.6); line-height: 1.7; max-width: 600px; padding-top: 6px; }
+.cs-prospect-header { margin-bottom: 40px; }
+.cs-icp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.icp-card { border: 1px solid rgba(243,236,221,.1); border-radius: 14px; padding: 32px; background: rgba(255,255,255,.04); }
+.icp-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+.icp-label { font-family: var(--imp-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--imp-amber-2); background: rgba(232,161,58,.12); padding: 4px 10px; border-radius: 4px; }
+.icp-count { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; color: var(--imp-bone); }
+.icp-count span { font-size: 13px; font-weight: 400; color: rgba(243,236,221,.4); margin-left: 4px; }
+.icp-name { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; color: var(--imp-bone); }
+.icp-desc { font-size: 13.5px; color: rgba(243,236,221,.55); line-height: 1.6; margin-bottom: 20px; }
+.icp-breakdown { display: flex; flex-direction: column; border-top: 1px solid rgba(243,236,221,.08); }
+.icp-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(243,236,221,.06); font-size: 13px; }
+.icp-row:last-child { border-bottom: 0; }
+.icp-row-label { color: rgba(243,236,221,.45); font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; }
+.icp-row-val { color: var(--imp-bone); font-weight: 600; }
+.icp-row-val.hi { color: var(--imp-amber-2); }
+.cs-total-bar { margin-top: 28px; border: 1px solid rgba(243,236,221,.1); border-radius: 14px; padding: 24px 32px; background: rgba(232,161,58,.07); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+.total-label { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(243,236,221,.45); margin-bottom: 6px; }
+.total-num { font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--imp-amber-2); }
+.total-sub { font-size: 13px; color: rgba(243,236,221,.4); margin-top: 2px; }
+.total-breakdown { display: flex; gap: 32px; }
+.total-item { text-align: right; }
+
+/* Process */
+.cs-process { padding: 72px var(--gutter); border-bottom: 1px solid var(--imp-rule); }
+.cs-process-header { margin-bottom: 48px; }
+.cs-process-intro { font-size: 16px; color: var(--imp-muted); line-height: 1.7; max-width: 600px; padding-top: 6px; }
+.process-steps { display: flex; flex-direction: column; }
+.process-step { display: grid; grid-template-columns: 220px 1fr; gap: 64px; padding: 28px 0; border-bottom: 1px solid var(--imp-rule); align-items: start; }
+.process-step:last-child { border-bottom: 0; }
+.step-meta { display: flex; align-items: center; gap: 14px; padding-top: 4px; }
+.step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--imp-slate); color: var(--imp-bone); font-family: var(--imp-mono); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-phase { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--imp-muted); }
+.step-title { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+.step-desc { font-size: 14px; color: var(--imp-muted); line-height: 1.68; }
+.step-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.step-pill { font-family: var(--imp-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; border: 1px solid var(--imp-rule-2); color: var(--imp-muted); }
+
+/* Tools */
+.cs-tools { padding: 56px var(--gutter); border-bottom: 1px solid var(--imp-rule); background: rgba(29,33,40,.03); }
+.cs-tools-header { margin-bottom: 28px; }
+.cs-tools-label { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--imp-amber); }
+.tools-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.tool-chip { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--imp-rule-2); background: var(--imp-bone); font-size: 13px; font-weight: 500; color: var(--imp-slate); }
+.tool-chip-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--imp-amber); flex-shrink: 0; }
+
+/* CTA */
+.cs-cta { padding: 80px var(--gutter); background: var(--imp-slate); text-align: center; position: relative; overflow: hidden; }
+.cs-cta::before { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(232,161,58,.10), transparent 65%); pointer-events: none; }
+.cs-cta-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+.cs-cta-eyebrow { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--imp-amber-2); margin-bottom: 20px; }
+.cs-cta-h2 { font-size: 40px; font-weight: 700; letter-spacing: -0.04em; line-height: 1.08; color: var(--imp-bone); margin-bottom: 16px; }
+.cs-cta-h2 em { color: var(--imp-amber-2); font-style: normal; }
+.cs-cta-sub { font-size: 16px; color: rgba(243,236,221,.6); line-height: 1.6; margin-bottom: 32px; }
+.cs-cta-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 28px; border-radius: 999px; background: var(--imp-amber-2); color: var(--imp-slate); font-weight: 600; font-size: 15px; transition: background .15s, transform .15s; }
+.cs-cta-btn:hover { background: #f0a830; transform: translateY(-1px); }
+
+/* Footer */
+.site-footer { background: var(--imp-slate-2); padding: 40px var(--gutter); display: flex; align-items: center; justify-content: space-between; font-family: var(--imp-mono); font-size: 11px; color: rgba(243,236,221,.4); letter-spacing: 0.04em; }
+.footer-status { display: flex; align-items: center; gap: 8px; color: rgba(243,236,221,.6); }
+.footer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--imp-amber-2); box-shadow: 0 0 6px var(--imp-amber-2); animation: blink 2.2s step-end infinite; }
+
+@media (max-width: 960px) {
+  .cs-hero { grid-template-columns: 1fr; gap: 36px; }
+  .cs-two-col, .cs-del-header, .cs-prospect-header, .cs-process-header { grid-template-columns: 1fr; gap: 12px; }
+  .process-step { grid-template-columns: 1fr; gap: 12px; }
+  .cs-del-grid { grid-template-columns: 1fr; }
+  .cs-icp-grid { grid-template-columns: 1fr; }
+  .cs-total-bar { flex-direction: column; }
+  .total-item { text-align: left; }
+  .total-breakdown { flex-direction: column; gap: 16px; }
+  .site-footer { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="/index.html" class="impello-logo" aria-label="Impello">
+    <span class="impello-logo__mark">impello</span>
+    <span class="impello-logo__arrow" aria-hidden="true">
+      <svg viewBox="0 0 36 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 9 H32"/><path d="M24 2 L33 9 L24 16"/>
+      </svg>
+    </span>
+    <span class="impello-logo__cursor"></span>
+  </a>
+  <div class="nav-right">
+    <a href="/index.html" class="nav-link">Home</a>
+    <a href="/casestudies.html" class="nav-link active">Case Studies</a>
+    <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="nav-btn" target="_blank">Let&rsquo;s Talk</a>
+  </div>
+</nav>
+
+<nav class="cs-breadcrumb" aria-label="Breadcrumb">
+  <a href="/casestudies.html">Case studies</a>
+  <span class="sep">/</span>
+  Shift Armor
+</nav>
+
+<section class="cs-hero">
+  <div>
+    <div class="cs-eyebrow">Security staffing &amp; services &middot; Outbound buildout</div>
+    <h1 class="cs-client-name">Shift <em>Armor</em></h1>
+    <p class="cs-tagline">Built a cold outbound system from zero &mdash; prospect list, scripts, sequences, SOPs, and full CRM integration &mdash; so Shift Armor could hire SDRs and hit the ground running on day one.</p>
+  </div>
+  <div class="cs-meta-card">
+    <div class="cs-meta-row"><span class="cs-meta-label">Client</span><span class="cs-meta-value">Shift Armor</span></div>
+    <div class="cs-meta-row"><span class="cs-meta-label">Industry</span><span class="cs-meta-value">Security staffing &amp; services</span></div>
+    <div class="cs-meta-row"><span class="cs-meta-label">Engagement type</span><span class="cs-meta-value">Sales System Buildout</span></div>
+    <div class="cs-meta-row"><span class="cs-meta-label">Prospect list size</span><span class="cs-meta-value"><strong>~800 contacts</strong> across 2 ICPs</span></div>
+    <div class="cs-meta-row"><span class="cs-meta-label">Deliverables</span><span class="cs-meta-value">5 core workstreams</span></div>
+    <div class="cs-meta-row"><span class="cs-meta-label">CRM</span><span class="cs-meta-value">HubSpot</span></div>
+  </div>
+</section>
+
+<div class="cs-body">
+
+  <section class="cs-challenge">
+    <div class="cs-two-col">
+      <div class="cs-section-label">01 &middot; The challenge</div>
+      <div>
+        <h2 class="cs-challenge-h2">A strong service with no outbound infrastructure to sell it.</h2>
+        <div class="cs-challenge-body">
+          <p>Shift Armor had the product and the expertise &mdash; but no systematic way to reach the buyers who needed them. Their pipeline was reactive, dependent on referrals and existing relationships, with no repeatable process for generating new conversations at scale.</p>
+          <p>They needed a full outbound foundation: the right prospect targets identified and researched, a calling approach their team could execute consistently, and the operational backbone to hire SDRs and deploy the system without starting from scratch every time.</p>
+          <p>Impello was brought in to build the engine, not advise on it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-deliverables">
+    <div class="cs-del-header cs-two-col">
+      <div class="cs-section-label">02 &middot; Deliverables</div>
+      <div class="cs-del-intro">Five interconnected workstreams, each built to operate independently and plug into the next. Nothing was handed over as a template &mdash; every asset was built for Shift Armor&rsquo;s specific buyers, language, and sales motion.</div>
+    </div>
+    <div class="cs-del-grid">
+      <div class="del-card">
+        <div class="del-num">01</div>
+        <div class="del-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><line x1="19" y1="8" x2="23" y2="8"/><line x1="21" y1="6" x2="21" y2="10"/></svg></div>
+        <div class="del-title">Full Prospect List</div>
+        <div class="del-desc">~800 verified contacts across two distinct ICPs &mdash; each record including direct email address, phone number, title, company, and enriched context for personalization. No generic databases. Built to dial.</div>
+        <div class="del-tags"><span class="del-tag">ICP #1</span><span class="del-tag">ICP #2</span><span class="del-tag">~800 contacts</span><span class="del-tag">Email + phone</span></div>
+      </div>
+      <div class="del-card">
+        <div class="del-num">02</div>
+        <div class="del-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.37 19a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div class="del-title">Cold Calling Campaign</div>
+        <div class="del-desc">A detailed, structured cold calling campaign covering call sequencing, follow-up cadence, voicemail strategy, objection handling paths, and disposition tracking &mdash; designed for an SDR to execute without guesswork.</div>
+        <div class="del-tags"><span class="del-tag">Call cadence</span><span class="del-tag">Voicemail strategy</span><span class="del-tag">Objection handling</span><span class="del-tag">Disposition logic</span></div>
+      </div>
+      <div class="del-card">
+        <div class="del-num">03</div>
+        <div class="del-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="del-title">Cold Calling Script</div>
+        <div class="del-desc">A tailored, ICP-specific cold calling script written in Shift Armor&rsquo;s voice &mdash; not a template with blanks filled in. Built around the real pain points of their buyers, with branching paths for gatekeepers and decision-makers.</div>
+        <div class="del-tags"><span class="del-tag">ICP-tailored</span><span class="del-tag">Opener variants</span><span class="del-tag">Gatekeeper path</span><span class="del-tag">DM path</span></div>
+      </div>
+      <div class="del-card">
+        <div class="del-num">04</div>
+        <div class="del-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+        <div class="del-title">SDR Hiring &amp; Onboarding SOPs</div>
+        <div class="del-desc">Step-by-step standard operating procedures for recruiting, interviewing, hiring, and onboarding SDRs &mdash; so Shift Armor could scale headcount without re-inventing the process every time.</div>
+        <div class="del-tags"><span class="del-tag">Hiring criteria</span><span class="del-tag">Interview framework</span><span class="del-tag">Onboarding checklist</span><span class="del-tag">Ramp timeline</span></div>
+      </div>
+      <div class="del-card">
+        <div class="del-num">05</div>
+        <div class="del-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+        <div class="del-title">HubSpot Integration</div>
+        <div class="del-desc">Full CRM setup &mdash; contact imports, pipeline stages, call disposition properties, sequence enrollment, and task automation &mdash; so every rep action is captured and every prospect moves through a trackable workflow.</div>
+        <div class="del-tags"><span class="del-tag">Contact import</span><span class="del-tag">Pipeline stages</span><span class="del-tag">Sequences</span><span class="del-tag">Task automation</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-prospect">
+    <div class="cs-prospect-inner">
+      <div class="cs-prospect-header cs-two-col">
+        <div class="cs-prospect-label">03 &middot; Prospect list</div>
+        <div class="cs-prospect-intro">Two distinct ideal customer profiles, each researched and built separately to ensure message-to-market fit. Every contact includes both a verified email address and a direct phone number.</div>
+      </div>
+      <div class="cs-icp-grid">
+        <div class="icp-card">
+          <div class="icp-header"><span class="icp-label">ICP #1</span><div class="icp-count">~400 <span>contacts</span></div></div>
+          <div class="icp-name">Corporate &amp; Enterprise Security Buyers</div>
+          <div class="icp-desc">Decision-makers at mid-to-large organizations that procure security staffing or managed guard services &mdash; typically Heads of Security, Facility Managers, or VP Operations.</div>
+          <div class="icp-breakdown">
+            <div class="icp-row"><span class="icp-row-label">Email addresses</span><span class="icp-row-val hi">~400 verified</span></div>
+            <div class="icp-row"><span class="icp-row-label">Phone numbers</span><span class="icp-row-val hi">~400 direct</span></div>
+            <div class="icp-row"><span class="icp-row-label">Data source</span><span class="icp-row-val">Apollo &middot; manual enrichment</span></div>
+            <div class="icp-row"><span class="icp-row-label">Format</span><span class="icp-row-val">CSV &middot; HubSpot-ready</span></div>
+          </div>
+        </div>
+        <div class="icp-card">
+          <div class="icp-header"><span class="icp-label">ICP #2</span><div class="icp-count">~400 <span>contacts</span></div></div>
+          <div class="icp-name">Property &amp; Event Management Buyers</div>
+          <div class="icp-desc">Operators across commercial real estate, hospitality, and event management who need contracted security coverage &mdash; typically Property Managers, Event Directors, or General Managers.</div>
+          <div class="icp-breakdown">
+            <div class="icp-row"><span class="icp-row-label">Email addresses</span><span class="icp-row-val hi">~400 verified</span></div>
+            <div class="icp-row"><span class="icp-row-label">Phone numbers</span><span class="icp-row-val hi">~400 direct</span></div>
+            <div class="icp-row"><span class="icp-row-label">Data source</span><span class="icp-row-val">Apollo &middot; manual enrichment</span></div>
+            <div class="icp-row"><span class="icp-row-label">Format</span><span class="icp-row-val">CSV &middot; HubSpot-ready</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cs-total-bar">
+        <div>
+          <div class="total-label">Total list size</div>
+          <div class="total-num">~800</div>
+          <div class="total-sub">verified contacts across both ICPs</div>
+        </div>
+        <div class="total-breakdown">
+          <div class="total-item"><div class="total-label">Emails</div><div class="total-num" style="font-size:26px">~800</div><div class="total-sub">verified addresses</div></div>
+          <div class="total-item"><div class="total-label">Phone numbers</div><div class="total-num" style="font-size:26px">~800</div><div class="total-sub">direct dials</div></div>
+          <div class="total-item"><div class="total-label">ICPs covered</div><div class="total-num" style="font-size:26px">2</div><div class="total-sub">distinct buyer profiles</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-process">
+    <div class="cs-process-header cs-two-col">
+      <div class="cs-section-label">04 &middot; How we built it</div>
+      <div class="cs-process-intro">Each workstream was built in sequence &mdash; research and targeting first, then the messaging layer, then the operational infrastructure to run and scale it.</div>
+    </div>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-meta"><div class="step-num">1</div><div class="step-phase">Discovery</div></div>
+        <div>
+          <div class="step-title">ICP definition &amp; buyer research</div>
+          <div class="step-desc">Mapped the two buyer segments in detail &mdash; job titles, company types, firmographics, decision-making authority, and the language they use to describe their pain. This foundation drove every other deliverable.</div>
+          <div class="step-pills"><span class="step-pill">ICP mapping</span><span class="step-pill">Buyer research</span><span class="step-pill">Competitive context</span></div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-meta"><div class="step-num">2</div><div class="step-phase">List build</div></div>
+        <div>
+          <div class="step-title">Prospect sourcing, enrichment &amp; verification</div>
+          <div class="step-desc">Sourced contacts from Apollo, manually enriched and cross-referenced for accuracy, and verified both email addresses and phone numbers before delivery. Output: two clean, dial-ready CSVs formatted for HubSpot import.</div>
+          <div class="step-pills"><span class="step-pill">Apollo</span><span class="step-pill">Manual enrichment</span><span class="step-pill">Email verification</span><span class="step-pill">Phone validation</span></div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-meta"><div class="step-num">3</div><div class="step-phase">Messaging</div></div>
+        <div>
+          <div class="step-title">Script writing &amp; campaign design</div>
+          <div class="step-desc">Wrote the cold calling script from scratch in Shift Armor&rsquo;s voice &mdash; not a template with blanks filled in. Built the full campaign structure around it: call cadence, voicemail scripts, objection handling trees, and follow-up timing.</div>
+          <div class="step-pills"><span class="step-pill">Opener variants</span><span class="step-pill">Objection trees</span><span class="step-pill">Voicemail scripts</span><span class="step-pill">Follow-up cadence</span></div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-meta"><div class="step-num">4</div><div class="step-phase">Infrastructure</div></div>
+        <div>
+          <div class="step-title">HubSpot setup &amp; workflow configuration</div>
+          <div class="step-desc">Configured HubSpot from the ground up &mdash; contact properties, pipeline stages, call outcome dispositions, sequences tied to campaign steps, and automated tasks to keep reps in motion. Built to be maintainable without a RevOps hire.</div>
+          <div class="step-pills"><span class="step-pill">HubSpot CRM</span><span class="step-pill">Pipeline stages</span><span class="step-pill">Sequence enrollment</span><span class="step-pill">Task automation</span></div>
+        </div>
+      </div>
+      <div class="process-step">
+        <div class="step-meta"><div class="step-num">5</div><div class="step-phase">Scale</div></div>
+        <div>
+          <div class="step-title">SDR SOPs &amp; hiring documentation</div>
+          <div class="step-desc">Documented the full SDR hiring and onboarding process so Shift Armor could recruit and ramp sales reps against a consistent standard &mdash; interview scorecard, offer criteria, week-by-week onboarding checklist, and performance benchmarks.</div>
+          <div class="step-pills"><span class="step-pill">Job description</span><span class="step-pill">Interview scorecard</span><span class="step-pill">Onboarding checklist</span><span class="step-pill">KPI benchmarks</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-tools">
+    <div class="cs-tools-header"><div class="cs-tools-label">05 &middot; Tools used</div></div>
+    <div class="tools-grid">
+      <div class="tool-chip"><span class="tool-chip-dot"></span>HubSpot CRM</div>
+      <div class="tool-chip"><span class="tool-chip-dot"></span>Apollo.io</div>
+      <div class="tool-chip"><span class="tool-chip-dot"></span>Instantly</div>
+      <div class="tool-chip"><span class="tool-chip-dot"></span>Hunter.io</div>
+      <div class="tool-chip"><span class="tool-chip-dot"></span>LinkedIn Sales Navigator</div>
+      <div class="tool-chip"><span class="tool-chip-dot"></span>Google Sheets</div>
+      <div class="tool-chip"><span class="tool-chip-dot"></span>Notion (SOPs)</div>
+      <div class="tool-chip"><span class="tool-chip-dot"></span>Loom (onboarding video)</div>
+    </div>
+  </section>
+
+</div>
+
+<section class="cs-cta">
+  <div class="cs-cta-inner">
+    <div class="cs-cta-eyebrow">Ready to build?</div>
+    <h2 class="cs-cta-h2">Your pipeline shouldn&rsquo;t depend on <em>who you happen to know.</em></h2>
+    <p class="cs-cta-sub">We build the outbound system end-to-end. You get a list, a script, a CRM, and a playbook &mdash; not a deck of recommendations.</p>
+    <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="cs-cta-btn" target="_blank">Book a consultation &rarr;</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <a href="/index.html" class="impello-logo impello-logo--inverse" style="font-size:18px;gap:8px" aria-label="Impello">
+    <span class="impello-logo__mark">impello</span>
+    <span class="impello-logo__arrow" aria-hidden="true">
+      <svg viewBox="0 0 36 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 9 H32"/><path d="M24 2 L33 9 L24 16"/>
+      </svg>
+    </span>
+    <span class="impello-logo__cursor"></span>
+  </a>
+  <span>&copy; 2026 Impello Agency. All rights reserved.</span>
+  <div class="footer-status"><span class="footer-dot" aria-hidden="true"></span>Pipeline live &middot; sequences running</div>
+</footer>
+
+<script>
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', (e) => {
+    dot.style.left = e.clientX - 4 + 'px';
+    dot.style.top = e.clientY - 4 + 'px';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('is-hovering'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('is-hovering'));
+  });
+</script>
+</body>
+</html>
