@@ -294,115 +294,7 @@ nav {
   .origin-close { font-size: 18px; }
 }
 
-/* ── Founder banner ── */
-.impello-founder-banner {
-  --ifb-bg:            #f3ecdd;
-  --ifb-ink:           var(--imp-slate);
-  --ifb-ink-muted:     var(--imp-muted);
-  --ifb-rule:          var(--imp-rule-2);
-  --ifb-portrait-ring: rgba(29,33,40,.18);
-  --ifb-sans:          var(--imp-display);
-  --ifb-mono:          var(--imp-mono);
-  --ifb-pad-y:         22px;
-  --ifb-pad-x:         clamp(20px, 4vw, 56px);
-  --ifb-max-w:         1280px;
-  --ifb-portrait-size: 88px;
-  display: block;
-  width: 100%;
-  background: var(--ifb-bg);
-  border-top: 1px solid var(--ifb-rule);
-  border-bottom: 1px solid var(--ifb-rule);
-  color: var(--ifb-ink);
-  font-family: var(--ifb-sans);
-  -webkit-font-smoothing: antialiased;
-}
-.impello-founder-banner .ifb__inner {
-  max-width: var(--ifb-max-w);
-  margin: 0 auto;
-  padding: var(--ifb-pad-y) var(--ifb-pad-x);
-  display: grid;
-  grid-template-columns: var(--ifb-portrait-size) 1fr auto;
-  align-items: center;
-  gap: 28px;
-}
-.impello-founder-banner .ifb__portrait {
-  width: var(--ifb-portrait-size);
-  height: var(--ifb-portrait-size);
-  border-radius: 50%;
-  overflow: hidden;
-  border: 1px solid var(--ifb-portrait-ring);
-  flex-shrink: 0;
-}
-.impello-founder-banner .ifb__portrait img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 22%;
-}
-.impello-founder-banner .ifb__quote { margin: 0; padding: 0; min-width: 0; }
-.impello-founder-banner .ifb__eyebrow {
-  margin: 0 0 6px;
-  font-family: var(--ifb-mono);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ifb-ink-muted);
-}
-.impello-founder-banner .ifb__line {
-  margin: 0;
-  max-width: 760px;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.3;
-  letter-spacing: -0.025em;
-  color: var(--ifb-ink);
-}
-.impello-founder-banner .ifb__line em { font-style: italic; font-weight: 400; }
-.impello-founder-banner .ifb__attribution {
-  display: block;
-  margin-top: 8px;
-  font-style: normal;
-  font-size: 13px;
-  color: var(--ifb-ink-muted);
-}
-.impello-founder-banner .ifb__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-  padding: 12px 18px;
-  border: 1px solid var(--ifb-ink);
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ifb-ink);
-  text-decoration: none;
-  background: transparent;
-  transition: background 160ms ease, color 160ms ease;
-}
-.impello-founder-banner .ifb__cta:hover { background: var(--ifb-ink); color: var(--ifb-bg); }
-.impello-founder-banner .ifb__cta:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(29,33,40,0.18); }
-@media (max-width: 860px) {
-  .impello-founder-banner { --ifb-portrait-size: 72px; }
-  .impello-founder-banner .ifb__inner { gap: 20px; }
-  .impello-founder-banner .ifb__line { font-size: 17px; }
-}
-@media (max-width: 600px) {
-  .impello-founder-banner { --ifb-portrait-size: 56px; }
-  .impello-founder-banner .ifb__inner {
-    grid-template-columns: 56px 1fr;
-    grid-template-areas: "portrait quote" "cta cta";
-    gap: 16px;
-    padding: 18px var(--ifb-pad-x);
-  }
-  .impello-founder-banner .ifb__portrait { grid-area: portrait; }
-  .impello-founder-banner .ifb__quote    { grid-area: quote; }
-  .impello-founder-banner .ifb__cta { grid-area: cta; justify-self: start; padding: 10px 16px; }
-  .impello-founder-banner .ifb__line { font-size: 16px; line-height: 1.35; }
-  .impello-founder-banner .ifb__eyebrow { font-size: 10px; }
-}
+
 /* ── Custom cursor ── */
 * { cursor: none; }
 .cursor-dot {
@@ -545,24 +437,6 @@ nav {
   </div>
 </nav>
 
-<aside class="impello-founder-banner" aria-label="Note from the founder">
-  <div class="ifb__inner">
-    <div class="ifb__portrait">
-      <img src="./alexis.jpg" alt="Alexis Antonelli, Founder of Impello" width="88" height="88" loading="eager" decoding="async">
-    </div>
-    <blockquote class="ifb__quote">
-      <p class="ifb__eyebrow">Note from the founder</p>
-      <p class="ifb__line">
-        <em>&ldquo;You don&rsquo;t need another SDR.</em>
-        You need a system that doesn&rsquo;t depend on who you happen to know.&rdquo;
-      </p>
-      <cite class="ifb__attribution">&mdash; Alexis Antonelli, Founder</cite>
-    </blockquote>
-    <a class="ifb__cta" href="https://calendly.com/alexis-m-antonelli/freediscoverycall" target="_blank">
-      Talk with Alexis <span aria-hidden="true">&rarr;</span>
-    </a>
-  </div>
-</aside>
 
 <section class="hero">
   <div class="hero-inner">
