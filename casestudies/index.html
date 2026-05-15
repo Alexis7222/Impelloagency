@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Studies &middot; Impello Agency</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --imp-bone: #f3ecdd; --imp-slate: #1d2128; --imp-slate-2: #14171d;
+    --imp-amber: #c2761a; --imp-amber-2: #e8a13a; --imp-muted: #7a766c;
+    --imp-rule: rgba(29,33,40,.10); --imp-rule-2: rgba(29,33,40,.28);
+    --imp-display: 'Inter Tight', -apple-system, system-ui, sans-serif;
+    --imp-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --gutter: clamp(1.5rem, 4vw, 3.5rem); --nav-h: 68px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--imp-display); color: var(--imp-slate); background: var(--imp-bone); -webkit-font-smoothing: antialiased; }
+  * { cursor: none; }
+  .cursor-dot { width: 8px; height: 8px; background: #c2761a; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+  .cursor-ring { width: 32px; height: 32px; border: 1.5px solid #c2761a; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease; }
+  .cursor-ring.is-hovering { width: 48px; height: 48px; opacity: 0.5; }
+
+  /* Nav */
+  nav { position: sticky; top: 0; z-index: 100; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter); background: rgba(243,236,221,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--imp-rule); }
+  .nav-right { display: flex; align-items: center; gap: 2rem; }
+  .nav-link { font-size: 13.5px; font-weight: 400; color: var(--imp-muted); letter-spacing: 0.02em; transition: color 0.2s; text-decoration: none; }
+  .nav-link:hover, .nav-link.active { color: var(--imp-slate); }
+  .nav-btn { font-size: 13px; font-weight: 500; color: var(--imp-bone); background: var(--imp-slate); padding: 9px 20px; border-radius: 999px; text-decoration: none; transition: background 0.15s; }
+  .nav-btn:hover { background: #000; }
+  .impello-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--imp-slate); }
+  .impello-logo__mark { font-family: var(--imp-display); font-size: 18px; font-weight: 700; letter-spacing: -0.03em; }
+  .impello-logo__arrow svg { width: 28px; height: 14px; }
+  .impello-logo__cursor { display: inline-block; width: 2px; height: 18px; background: var(--imp-amber); animation: blink 1s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* Page header */
+  .cs-header { background: var(--imp-slate); padding: 80px var(--gutter) 72px; }
+  .cs-eyebrow { font-family: var(--imp-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--imp-amber); margin-bottom: 1.25rem; }
+  .cs-headline { font-weight: 800; font-size: clamp(40px, 6vw, 72px); line-height: 0.97; letter-spacing: -0.04em; color: var(--imp-bone); }
+  .cs-headline span { color: var(--imp-amber-2); }
+  .cs-sub { font-size: 16px; color: rgba(243,236,221,0.55); line-height: 1.7; max-width: 520px; margin-top: 1.5rem; }
+
+  /* Case cards */
+  .cs-grid { max-width: 1100px; margin: 0 auto; padding: 80px var(--gutter); display: flex; flex-direction: column; gap: 4rem; }
+  .cs-card { border: 1px solid var(--imp-rule-2); border-radius: 4px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; background: #fff; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease; }
+  .cs-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(29,33,40,0.10), 0 4px 12px rgba(194,118,26,0.08); }
+  .cs-card-left { padding: 3rem; border-right: 1px solid var(--imp-rule); }
+  .cs-card-right { padding: 3rem; background: var(--imp-slate); }
+  .cs-tag { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--imp-amber); margin-bottom: 1rem; }
+  .cs-tag-inv { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--imp-amber-2); margin-bottom: 1rem; }
+  .cs-client { font-weight: 700; font-size: 28px; letter-spacing: -0.03em; color: var(--imp-slate); margin-bottom: 0.35rem; }
+  .cs-client-inv { font-weight: 700; font-size: 28px; letter-spacing: -0.03em; color: var(--imp-bone); margin-bottom: 0.35rem; }
+  .cs-industry { font-size: 13px; color: var(--imp-muted); margin-bottom: 2rem; }
+  .cs-industry-inv { font-size: 13px; color: rgba(243,236,221,0.5); margin-bottom: 2rem; }
+  .cs-list { list-style: none; }
+  .cs-list li { font-size: 13.5px; color: var(--imp-muted); padding: 8px 0; border-top: 1px solid var(--imp-rule); display: flex; gap: 10px; align-items: flex-start; line-height: 1.55; }
+  .cs-list li::before { content: "\2014"; color: var(--imp-amber); flex-shrink: 0; opacity: 0.7; }
+  .cs-list-inv li { font-size: 13.5px; color: rgba(243,236,221,0.55); padding: 8px 0; border-top: 1px solid rgba(243,236,221,0.08); display: flex; gap: 10px; align-items: flex-start; line-height: 1.55; }
+  .cs-list-inv li::before { content: "\2014"; color: var(--imp-amber-2); flex-shrink: 0; opacity: 0.7; }
+  .cs-stat { font-weight: 800; font-size: 72px; letter-spacing: -0.04em; color: var(--imp-amber-2); line-height: 1; margin-bottom: 0.5rem; }
+  .cs-stat-desc { font-size: 14px; color: rgba(243,236,221,0.6); line-height: 1.65; margin-bottom: 2.5rem; }
+
+  /* More coming soon */
+  .cs-more { text-align: center; padding: 80px var(--gutter); border-top: 1px solid var(--imp-rule); }
+  .cs-more p { font-family: var(--imp-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--imp-muted); margin-bottom: 1.5rem; }
+  .cs-more a { display: inline-flex; align-items: center; gap: 10px; background: var(--imp-slate); color: var(--imp-bone); font-size: 15px; font-weight: 500; padding: 16px 32px; border-radius: 999px; text-decoration: none; transition: background 0.15s; }
+  .cs-more a:hover { background: #000; }
+
+  @media (max-width: 768px) {
+    .cs-card { grid-template-columns: 1fr; }
+    .cs-card-left { border-right: none; border-bottom: 1px solid rgba(243,236,221,0.08); }
+    .nav-link { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="/" class="impello-logo" aria-label="Impello">
+    <span class="impello-logo__mark">impello</span>
+    <span class="impello-logo__arrow" aria-hidden="true">
+      <svg viewBox="0 0 36 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 9 H32"/><path d="M24 2 L33 9 L24 16"/>
+      </svg>
+    </span>
+    <span class="impello-logo__cursor"></span>
+  </a>
+  <div class="nav-right">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/casestudies" class="nav-link active">Case Studies</a>
+    <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" class="nav-btn" target="_blank">Let&rsquo;s Talk</a>
+  </div>
+</nav>
+
+<div class="cs-header">
+  <p class="cs-eyebrow">Case Studies</p>
+  <h1 class="cs-headline">The work <span>speaks.</span></h1>
+  <p class="cs-sub">Real engagements. Real results. Every case study here is a system that was built, handed off, and is still running.</p>
+</div>
+
+<div class="cs-grid">
+
+  <div class="cs-card">
+    <div class="cs-card-left">
+      <p class="cs-tag">CPG &middot; Food &amp; Beverage</p>
+      <p class="cs-client">Ready Set Mushrooms</p>
+      <p class="cs-industry">B2B food &amp; beverage startup &mdash; outbound built from zero</p>
+      <ul class="cs-list">
+        <li>Built full outbound system from scratch in 4 months</li>
+        <li>400+ contact prospect list sourced and enriched</li>
+        <li>300+ automated cold emails deployed</li>
+        <li>Migrated Google Sheets to HubSpot CRM with full pipeline setup</li>
+        <li>Pivoted ICP from individual restaurants to restaurant groups</li>
+        <li>Custom call scripts and objection handling documentation</li>
+        <li>Outbound system still running post-engagement</li>
+      </ul>
+    </div>
+    <div class="cs-card-right">
+      <p class="cs-tag-inv">The result</p>
+      <p class="cs-stat">25%</p>
+      <p class="cs-stat-desc">Free-trial conversion rate across 100+ restaurant accounts &mdash; cold outbound only, no warm intros.</p>
+      <p class="cs-tag-inv">What we built</p>
+      <ul class="cs-list-inv">
+        <li>CRM &middot; sequences &middot; prospect lists &middot; scripts</li>
+        <li>Full HubSpot pipeline setup and migration</li>
+        <li>ICP definition and messaging framework</li>
+        <li>SDR handoff documentation and training</li>
+      </ul>
+    </div>
+  </div>
+  <div class="cs-card">
+    <div class="cs-card-left">
+      <p class="cs-tag">Security staffing &amp; services</p>
+      <p class="cs-client">Shift Armor</p>
+      <p class="cs-industry">B2B security staffing &mdash; outbound system built from zero</p>
+      <ul class="cs-list">
+        <li>~800-contact prospect list built across 2 ICPs &mdash; email and phone verified</li>
+        <li>Tailored cold calling script written in client voice with gatekeeper and DM paths</li>
+        <li>Full cold calling campaign &mdash; cadence, voicemail, objection trees, dispositions</li>
+        <li>SDR hiring and onboarding SOPs &mdash; scorecard to week-by-week ramp</li>
+        <li>HubSpot CRM built from scratch &mdash; pipeline, sequences, and task automation</li>
+      </ul>
+      <a href="/case-studies/shift-armor" style="display:inline-flex;align-items:center;gap:8px;margin-top:1.5rem;font-size:13.5px;font-weight:600;color:var(--imp-amber);letter-spacing:0.01em;">View case study &rarr;</a>
+    </div>
+    <div class="cs-card-right">
+      <p class="cs-tag-inv">What we delivered</p>
+      <p class="cs-stat">~800</p>
+      <p class="cs-stat-desc">Verified contacts across 2 ICPs &mdash; every record including direct email and phone number, HubSpot-ready.</p>
+      <p class="cs-tag-inv">The system</p>
+      <ul class="cs-list-inv">
+        <li>Full prospect list &middot; 2 ICPs &middot; email + phone</li>
+        <li>Cold calling campaign &amp; tailored scripts</li>
+        <li>SDR SOPs &amp; hiring documentation</li>
+        <li>HubSpot CRM setup &amp; workflow automation</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="cs-more">
+  <p>More case studies coming soon</p>
+  <a href="https://calendly.com/alexis-m-antonelli/freediscoverycall" target="_blank">Book a consultation &rarr;</a>
+</div>
+
+<script>
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', (e) => {
+    dot.style.left = e.clientX - 4 + 'px';
+    dot.style.top = e.clientY - 4 + 'px';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('is-hovering'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('is-hovering'));
+  });
+</script>
+</body>
+</html>
