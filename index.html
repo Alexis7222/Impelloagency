@@ -414,6 +414,92 @@ nav {
   font-size: 15.5px; line-height: 1.75; color: var(--imp-muted);
   padding-bottom: 1.5rem;
 }
+/* ── Values ── */
+.values-section {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  position: relative;
+  border-top: 1px solid var(--imp-rule);
+}
+.values-left {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 2rem 3rem 2.5rem;
+  border-right: 1px solid var(--imp-rule-2);
+  background: var(--imp-bone);
+}
+.values-eyebrow {
+  font-family: var(--imp-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--imp-amber);
+  margin-bottom: 1.25rem;
+}
+.values-headline {
+  font-weight: 800;
+  font-size: 56px;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--imp-slate);
+  margin-bottom: 2rem;
+}
+.values-headline .shimmer {
+  display: block;
+  background: linear-gradient(120deg, var(--imp-amber) 0%, var(--imp-amber-2) 35%, #f5c842 50%, var(--imp-amber-2) 65%, var(--imp-amber) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+.active-label {
+  font-family: var(--imp-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--imp-amber);
+  margin-bottom: 1.25rem;
+  min-height: 14px;
+}
+.step-dots { display: flex; flex-direction: column; gap: 10px; }
+.step-dot { display: flex; align-items: center; gap: 10px; }
+.dot-pip { width: 5px; height: 5px; border-radius: 999px; background: var(--imp-rule-2); flex-shrink: 0; transition: background 0.3s, transform 0.3s; }
+.dot-text { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--imp-muted); opacity: 0.4; transition: opacity 0.3s, color 0.3s; }
+.step-dot.active .dot-pip { background: var(--imp-amber); transform: scale(1.6); }
+.step-dot.active .dot-text { color: var(--imp-slate); opacity: 1; }
+.values-right { display: flex; flex-direction: column; }
+.value-card {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 4rem;
+  border-bottom: 1px solid var(--imp-rule);
+  background: var(--imp-bone);
+  transition: background 0.3s ease;
+}
+.value-card:last-child { border-bottom: none; }
+.value-card:hover { background: var(--imp-slate); }
+.value-card:hover .vc-num   { color: var(--imp-amber); }
+.value-card:hover .vc-bar   { background: linear-gradient(90deg, var(--imp-amber), var(--imp-amber-2)); }
+.value-card:hover .vc-title { color: var(--imp-bone); }
+.value-card:hover .vc-body  { color: rgba(243,236,221,0.5); }
+.vc-num { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--imp-amber); margin-bottom: 1.5rem; transition: color 0.3s; }
+.vc-bar { width: 40px; height: 1.5px; background: var(--imp-amber); margin-bottom: 1.5rem; transition: background 0.3s; }
+.vc-title { font-weight: 700; font-size: clamp(28px, 3vw, 48px); line-height: 1.05; letter-spacing: -0.035em; color: var(--imp-slate); margin-bottom: 1.25rem; transition: color 0.3s; max-width: 520px; }
+.vc-body { font-size: 16px; line-height: 1.75; color: var(--imp-muted); max-width: 520px; transition: color 0.3s; }
+@media (max-width: 768px) {
+  .values-section { grid-template-columns: 1fr; }
+  .values-left { position: relative; height: auto; padding: 3rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid var(--imp-rule-2); }
+  .values-headline { font-size: 48px; }
+  .value-card { min-height: 60vh; padding: 3rem 1.5rem; }
+}
 </style>
 </head>
 <body>
@@ -523,6 +609,54 @@ nav {
     <button class="trusted-arrow" id="trustedNext" aria-label="Next">
       <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
     </button>
+  </div>
+</section>
+<section class="values-section">
+  <div class="values-left">
+    <p class="values-eyebrow">Our values</p>
+    <div class="values-headline">
+      Our<br><span class="shimmer">Values.</span>
+    </div>
+    <p class="active-label" id="activeLabel">Execution over advice.</p>
+    <div class="step-dots">
+      <div class="step-dot active" data-index="0"><div class="dot-pip"></div><span class="dot-text">Execution over advice</span></div>
+      <div class="step-dot" data-index="1"><div class="dot-pip"></div><span class="dot-text">Systems over heroics</span></div>
+      <div class="step-dot" data-index="2"><div class="dot-pip"></div><span class="dot-text">Direct feedback</span></div>
+      <div class="step-dot" data-index="3"><div class="dot-pip"></div><span class="dot-text">Integrity and respect</span></div>
+      <div class="step-dot" data-index="4"><div class="dot-pip"></div><span class="dot-text">Measurable progress</span></div>
+    </div>
+  </div>
+  <div class="values-right">
+    <div class="value-card" data-label="Execution over advice." data-index="0">
+      <p class="vc-num">01 &middot; Value</p>
+      <div class="vc-bar"></div>
+      <p class="vc-title">Execution over advice.</p>
+      <p class="vc-body">We don&rsquo;t write strategy decks and wish you luck. We get inside the business, build the infrastructure end-to-end, and leave you with something that works when we walk out the door.</p>
+    </div>
+    <div class="value-card" data-label="Systems over heroics." data-index="1">
+      <p class="vc-num">02 &middot; Value</p>
+      <div class="vc-bar"></div>
+      <p class="vc-title">Systems over heroics.</p>
+      <p class="vc-body">Sustainable revenue comes from repeatable process, not founder hustle or sales sprints. We build infrastructure that works when no one is watching.</p>
+    </div>
+    <div class="value-card" data-label="Direct feedback." data-index="2">
+      <p class="vc-num">03 &middot; Value</p>
+      <div class="vc-bar"></div>
+      <p class="vc-title">Direct feedback.</p>
+      <p class="vc-body">We tell founders what their pipeline actually looks like, what&rsquo;s broken, and what it will take to fix it. No padding, no upselling, no false optimism.</p>
+    </div>
+    <div class="value-card" data-label="Integrity and respect." data-index="3">
+      <p class="vc-num">04 &middot; Value</p>
+      <div class="vc-bar"></div>
+      <p class="vc-title">Integrity and respect.</p>
+      <p class="vc-body">We&rsquo;ve been in the room. We don&rsquo;t waste your time with vanity deliverables or drawn-out onboarding. Every engagement starts with clarity on what &ldquo;done&rdquo; looks like &mdash; and we mean it.</p>
+    </div>
+    <div class="value-card" data-label="Measurable progress." data-index="4">
+      <p class="vc-num">05 &middot; Value</p>
+      <div class="vc-bar"></div>
+      <p class="vc-title">Measurable progress.</p>
+      <p class="vc-body">Every engagement has defined deliverables and real metrics. Pipeline volume, open rates, conversion rates, meetings booked. We anchor every engagement in numbers that tell the truth.</p>
+    </div>
   </div>
 </section>
 <section class="section" id="approach">
@@ -841,6 +975,24 @@ nav {
       if (!isOpen) item.classList.add('is-open');
     });
   });
+
+  // Values scroll tracker
+  (function() {
+    const vcards = document.querySelectorAll('.value-card');
+    const activeLabel = document.getElementById('activeLabel');
+    const vdots = document.querySelectorAll('.step-dot');
+    if (!vcards.length) return;
+    const vobs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = parseInt(entry.target.dataset.index);
+          activeLabel.textContent = entry.target.dataset.label;
+          vdots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+        }
+      });
+    }, { threshold: 0.5 });
+    vcards.forEach(card => vobs.observe(card));
+  })();
 </script>
 </body>
 </html>
