@@ -165,10 +165,9 @@ nav {
 .problem-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: start; }
 
 /* ── 02 How It Works ── */
-.phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 3rem; border: 1px solid var(--imp-rule-2); border-radius: 4px; }
-.phase { padding: 2.25rem 2rem; border-right: 1px solid var(--imp-rule); transition: background 0.2s; }
-.phase:last-child { border-right: none; }
-.phase:hover { background: rgba(29,33,40,.03); }
+.phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+.phase { padding: 2.25rem 2rem; background: #fff; border: 1px solid var(--imp-rule-2); border-radius: 4px; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease, border-color 0.25s ease; will-change: transform; }
+.phase:hover { transform: translateY(-10px) scale(1.02); border-color: rgba(194,118,26,0.5); box-shadow: 0 20px 48px rgba(29,33,40,0.12), 0 4px 12px rgba(194,118,26,0.12); }
 .phase-num { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--imp-amber); margin-bottom: 1.25rem; }
 .phase-name { font-size: 22px; font-weight: 600; letter-spacing: -0.025em; margin-bottom: 0.75rem; }
 .phase-desc { font-size: 14px; color: var(--imp-muted); line-height: 1.7; margin-bottom: 1.25rem; }
@@ -261,8 +260,6 @@ nav {
 @media (max-width: 960px) {
   .problem-grid { grid-template-columns: 1fr; gap: 2rem; }
   .phases { grid-template-columns: 1fr; }
-  .phase { border-right: none; border-bottom: 1px solid var(--imp-rule); }
-  .phase:last-child { border-bottom: none; }
   .proof-grid { grid-template-columns: 1fr; }
   .proof-block:first-child { border-right: none; border-bottom: 1px solid var(--imp-rule); }
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
