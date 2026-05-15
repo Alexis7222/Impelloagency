@@ -406,9 +406,37 @@ nav {
   .impello-founder-banner .ifb__line { font-size: 16px; line-height: 1.35; }
   .impello-founder-banner .ifb__eyebrow { font-size: 10px; }
 }
+/* ── Custom cursor ── */
+* { cursor: none; }
+.cursor-dot {
+  width: 8px; height: 8px;
+  background: #c2761a;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+}
+.cursor-ring {
+  width: 32px; height: 32px;
+  border: 1.5px solid #c2761a;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease, left 0.08s linear, top 0.08s linear;
+}
+.cursor-ring.is-hovering {
+  width: 48px; height: 48px;
+  opacity: 0.5;
+}
 </style>
 </head>
 <body>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
 <nav>
   <a href="#" class="impello-logo" aria-label="Impello — home">
@@ -718,6 +746,20 @@ nav {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
   }, { threshold: 0.1 });
   reveals.forEach(el => io.observe(el));
+
+  // Custom cursor
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorRing = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursorDot.style.left = e.clientX + 'px';
+    cursorDot.style.top = e.clientY + 'px';
+    cursorRing.style.left = e.clientX + 'px';
+    cursorRing.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('is-hovering'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('is-hovering'));
+  });
 </script>
 </body>
 </html>
