@@ -490,6 +490,41 @@ nav {
   flex-shrink: 0;
 }
 .trusted-name.is-active { opacity: 0.9; }
+/* ── FAQ ── */
+.faq-section { padding: 120px var(--gutter); background: var(--imp-bone); }
+.faq-section .section-eyebrow { margin-bottom: 1rem; }
+.faq-section .section-head { margin-bottom: 3.5rem; }
+.faq-list { max-width: 760px; margin: 0 auto; }
+.faq-item { border-top: 1px solid var(--imp-rule-2); }
+.faq-item:last-child { border-bottom: 1px solid var(--imp-rule-2); }
+.faq-question {
+  width: 100%; background: none; border: none; cursor: none;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.5rem 0; gap: 2rem; text-align: left;
+  font-family: var(--imp-display); font-size: 17px; font-weight: 600;
+  color: var(--imp-slate); letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+.faq-question:hover { color: var(--imp-amber); }
+.faq-icon {
+  flex-shrink: 0; width: 22px; height: 22px;
+  border: 1.5px solid var(--imp-rule-2); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, border-color 0.2s, transform 0.3s;
+}
+.faq-icon svg { width: 10px; height: 10px; stroke: var(--imp-slate); stroke-width: 2.5; fill: none; transition: stroke 0.2s; }
+.faq-item.is-open .faq-icon { background: var(--imp-slate); border-color: var(--imp-slate); transform: rotate(45deg); }
+.faq-item.is-open .faq-icon svg { stroke: var(--imp-bone); }
+.faq-item.is-open .faq-question { color: var(--imp-slate); }
+.faq-answer {
+  overflow: hidden; max-height: 0;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+}
+.faq-item.is-open .faq-answer { max-height: 600px; }
+.faq-answer p {
+  font-size: 15.5px; line-height: 1.75; color: var(--imp-muted);
+  padding-bottom: 1.5rem;
+}
 </style>
 </head>
 <body>
@@ -773,6 +808,69 @@ nav {
 </section>
 
 
+<section class="faq-section reveal" id="faq">
+  <div class="section-eyebrow reveal">FAQ</div>
+  <h2 class="section-head reveal">Frequently asked <span style="color:var(--imp-muted)">questions.</span></h2>
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What services does Impello provide?
+        <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-answer"><p>Impello builds outbound sales systems for early-stage B2B founders. That includes lead list building, CRM setup and migration, cold email and call sequences, pipeline structure, and SDR hiring and management. Depending on your stage, I also offer ongoing RevOps retainers and fractional sales director engagements &mdash; where I act as your head of sales without the full-time cost.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Who are your typical clients?
+        <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-answer"><p>Early-stage B2B founders who are generating revenue primarily through referrals or warm intros and know that&rsquo;s not a scalable strategy. Usually pre-Series A, with a product that&rsquo;s proven but a sales motion that&rsquo;s informal. If you&rsquo;re spending more time networking than prospecting, Impello is probably a fit.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What does the engagement process look like?
+        <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-answer"><p>It starts with a free discovery call to understand your current pipeline, ICP, and goals. From there I&rsquo;ll put together a scoped proposal &mdash; usually a buildout project first, then an optional retainer to keep the system running. Most buildouts take 4&ndash;8 weeks. You&rsquo;ll have a working outbound system and the knowledge to run it by the end.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What tools and platforms do you work with?
+        <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-answer"><p>My core stack is HubSpot, Apollo, Instantly, Clay, and Zapier or Make for automation. If you&rsquo;re already using a different CRM or sequencing tool, I&rsquo;ll work with what you have &mdash; or make a case for switching if there&rsquo;s a strong reason to. I&rsquo;m tool-agnostic; the system matters more than the software.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        How do I get started?
+        <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-answer"><p>Book a free 30-minute discovery call at impelloagency.com. We&rsquo;ll talk through where you are, where you want to go, and whether Impello is the right fit. No pitch, no pressure &mdash; just an honest conversation about your sales motion.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What does it cost?
+        <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-answer"><p>Sales system buildouts start at $4,000 depending on scope. Ongoing RevOps retainers start at $2,500/mo. Fractional sales director engagements start at $3,000/mo. Every engagement is scoped individually &mdash; I don&rsquo;t do one-size-fits-all packages. Pricing is discussed transparently on the discovery call.</p></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Do you provide ongoing support after the buildout?
+        <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+      </button>
+      <div class="faq-answer"><p>Yes. Most clients move into an ongoing RevOps retainer after the initial buildout &mdash; this covers sequence optimization, reporting, CRM hygiene, and strategic guidance as your pipeline grows. If you&rsquo;d rather run it independently, I&rsquo;ll make sure you&rsquo;re fully equipped to do that too.</p></div>
+    </div>
+
+  </div>
+</section>
 <div class="cta-final">
   <h2 class="cta-headline reveal">Ready to build<br><span class="accent">the engine?</span></h2>
   <p class="cta-line reveal">Let's spend 30 minutes figuring out scope, timeline, and fit.</p>
@@ -862,6 +960,16 @@ nav {
     document.getElementById('trustedPrev').addEventListener('click', () => goTo(current - 1));
     document.getElementById('trustedNext').addEventListener('click', () => goTo(current + 1));
   })();
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('is-open');
+      document.querySelectorAll('.faq-item.is-open').forEach(el => el.classList.remove('is-open'));
+      if (!isOpen) item.classList.add('is-open');
+    });
+  });
 </script>
 </body>
 </html>
