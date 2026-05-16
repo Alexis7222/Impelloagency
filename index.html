@@ -593,13 +593,22 @@ nav {
 .hs-bar { position: absolute; bottom: 0; left: 0; height: 2px; background: #378ADD; border-radius: 0 2px 2px 0; z-index: 10; }
 @media (max-width: 1200px) { .hero-inner.hero-grid { grid-template-columns: 1fr; gap: 2rem; } .hs-wrap { max-width: 660px; } }
 @media (max-width: 680px) { .hs-slide { flex-direction: column; padding: 40px 28px 68px; gap: 24px; } .hs-right { width: 100%; } .hs-headline { font-size: 18px; } }
+
+/* -- Quiz announcement bar -- */
+.quiz-bar { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 10px var(--gutter); background: var(--imp-amber); font-family: var(--imp-mono); font-size: 11px; letter-spacing: 0.06em; text-align: center; flex-wrap: wrap; }
+.quiz-bar span { color: var(--imp-slate); opacity: 0.8; }
+.quiz-bar a { color: var(--imp-slate); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.quiz-bar a:hover { opacity: 0.75; }
 </style>
 </head>
 <body>
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<nav>
+<div class="quiz-bar">
+  <span>Is your business ready to scale outbound?</span>
+  <a href="/quiz">Take the 7-question assessment &#8594;</a>
+</div><nav>
   <a href="#" class="impello-logo" aria-label="Impello — home">
     <span class="impello-logo__mark">impello</span>
     <span class="impello-logo__arrow" aria-hidden="true">
