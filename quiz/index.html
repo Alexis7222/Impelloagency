@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Fit Assessment &middot; Impello Agency</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --imp-bone: #f3ecdd;
+      --imp-slate: #1d2128;
+      --imp-amber: #c2761a;
+      --imp-amber-2: #d98e2a;
+      --imp-rule: rgba(243,236,221,0.08);
+      --imp-muted: rgba(243,236,221,0.5);
+      --imp-display: 'Inter Tight', sans-serif;
+      --imp-mono: 'JetBrains Mono', monospace;
+      --gutter: clamp(1.5rem, 5vw, 3rem);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--imp-slate); color: var(--imp-bone); font-family: var(--imp-display); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* NAV */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem var(--gutter); border-bottom: 1px solid var(--imp-rule); }
+    .nav-logo { font-family: var(--imp-display); font-weight: 800; font-size: 16px; letter-spacing: -0.02em; color: var(--imp-bone); text-decoration: none; }
+    .nav-back { font-family: var(--imp-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--imp-muted); text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--imp-bone); }
+
+    /* QUIZ OUTER */
+    .quiz-outer { flex: 1; display: flex; align-items: center; justify-content: center; padding: 4rem var(--gutter); }
+    .quiz-card { width: 100%; max-width: 600px; }
+
+    /* HEADER */
+    .quiz-eyebrow { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--imp-amber); margin-bottom: 1rem; }
+    .quiz-title { font-size: clamp(26px, 4vw, 34px); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; color: var(--imp-bone); margin-bottom: 0.75rem; }
+    .quiz-subtitle { font-size: 15px; color: var(--imp-muted); line-height: 1.65; margin-bottom: 2.5rem; }
+
+    /* PROGRESS */
+    .progress-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+    .progress-label { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--imp-muted); }
+    .progress-track { height: 2px; background: var(--imp-rule); border-radius: 99px; margin-bottom: 2.5rem; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--imp-amber); border-radius: 99px; transition: width 0.4s ease; }
+
+    /* QUESTION */
+    .q-num { font-family: var(--imp-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--imp-muted); margin-bottom: 0.6rem; }
+    .q-text { font-size: clamp(18px, 2.5vw, 22px); font-weight: 700; line-height: 1.3; letter-spacing: -0.02em; color: var(--imp-bone); margin-bottom: 1.75rem; }
+
+    /* OPTIONS */
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
+    .opt { display: block; width: 100%; text-align: left; padding: 14px 18px; border-radius: 10px; border: 1px solid rgba(243,236,221,0.12); background: rgba(243,236,221,0.04); color: var(--imp-muted); font-family: var(--imp-display); font-size: 15px; font-weight: 400; cursor: pointer; transition: all 0.15s ease; line-height: 1.45; }
+    .opt:hover { border-color: rgba(194,118,26,0.45); background: rgba(194,118,26,0.07); color: var(--imp-bone); }
+    .opt.selected { border-color: var(--imp-amber); background: rgba(194,118,26,0.13); color: var(--imp-bone); font-weight: 600; }
+
+    /* NAV ROW */
+    .nav-row { display: flex; justify-content: space-between; align-items: center; }
+    .btn-back { background: none; border: none; color: var(--imp-muted); font-family: var(--imp-display); font-size: 14px; cursor: pointer; padding: 8px 0; transition: color 0.2s; }
+    .btn-back:hover { color: var(--imp-bone); }
+    .btn-next { background: var(--imp-amber); color: var(--imp-bone); border: none; border-radius: 8px; padding: 12px 28px; font-family: var(--imp-display); font-size: 14px; font-weight: 600; cursor: pointer; letter-spacing: -0.01em; transition: background 0.2s, opacity 0.2s; }
+    .btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-next:not(:disabled):hover { background: var(--imp-amber-2); }
+
+    /* RESULTS */
+    .result-wrap { text-align: center; }
+    .result-emoji { font-size: 40px; margin-bottom: 1rem; display: block; }
+    .result-card { border-radius: 14px; padding: 2rem; margin: 1.5rem 0; text-align: left; }
+    .result-badge { display: inline-block; font-family: var(--imp-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 14px; border-radius: 99px; margin-bottom: 1rem; }
+    .result-headline { font-size: 22px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.2; margin-bottom: 0.75rem; }
+    .result-body { font-size: 15px; line-height: 1.72; opacity: 0.8; }
+    .result-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 1.75rem; padding: 14px 32px; border-radius: 8px; border: none; font-family: var(--imp-display); font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none; letter-spacing: -0.01em; transition: opacity 0.2s; }
+    .result-cta:hover { opacity: 0.85; }
+    .btn-restart { display: block; margin: 1.25rem auto 0; background: none; border: none; color: var(--imp-muted); font-family: var(--imp-display); font-size: 13px; cursor: pointer; text-decoration: underline; transition: color 0.2s; }
+    .btn-restart:hover { color: var(--imp-bone); }
+
+    /* Tier themes */
+    .tier-strong .result-card { background: rgba(194,118,26,0.1); border: 1px solid rgba(194,118,26,0.4); }
+    .tier-strong .result-badge { background: var(--imp-amber); color: var(--imp-bone); }
+    .tier-strong .result-headline { color: var(--imp-amber-2); }
+    .tier-strong .result-cta { background: var(--imp-amber); color: var(--imp-bone); }
+
+    .tier-likely .result-card { background: rgba(55,138,221,0.08); border: 1px solid rgba(55,138,221,0.3); }
+    .tier-likely .result-badge { background: #378ADD; color: #fff; }
+    .tier-likely .result-headline { color: #7DB8E8; }
+    .tier-likely .result-cta { background: #378ADD; color: #fff; }
+
+    .tier-later .result-card { background: rgba(243,236,221,0.05); border: 1px solid rgba(243,236,221,0.12); }
+    .tier-later .result-badge { background: rgba(243,236,221,0.15); color: var(--imp-bone); }
+    .tier-later .result-headline { color: var(--imp-bone); }
+    .tier-later .result-cta { background: rgba(243,236,221,0.12); color: var(--imp-bone); border: 1px solid rgba(243,236,221,0.2); }
+
+    #screen-result { display: none; }
+    @media (max-width: 600px) { .quiz-outer { padding: 2.5rem var(--gutter); align-items: flex-start; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Impello</a>
+  <a href="/" class="nav-back">&#8592; Back to site</a>
+</nav>
+
+<div class="quiz-outer">
+  <div class="quiz-card">
+
+    <div id="screen-quiz">
+      <p class="quiz-eyebrow">Sales Fit Assessment</p>
+      <h1 class="quiz-title">Is your business ready to scale outbound?</h1>
+      <p class="quiz-subtitle">7 quick questions. Find out if Impello can help you build a predictable sales engine.</p>
+      <div class="progress-row">
+        <span class="progress-label" id="q-counter">Question 1 of 7</span>
+        <span class="progress-label" id="q-pct">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <p class="q-num" id="q-num"></p>
+      <h2 class="q-text" id="q-text"></h2>
+      <div class="options" id="options-list"></div>
+      <div class="nav-row">
+        <button class="btn-back" id="btn-back" onclick="goBack()">&#8592; Back</button>
+        <button class="btn-next" id="btn-next" onclick="goNext()" disabled>Next &#8594;</button>
+      </div>
+    </div>
+
+    <div id="screen-result">
+      <div class="result-wrap" id="result-inner"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+var questions = [
+  { id:1, question:"How does your business currently get most of its new clients?", options:[
+    { label:"Referrals or word of mouth", score:3 },
+    { label:"Inbound leads (website, social, ads)", score:2 },
+    { label:"Cold outreach (email, LinkedIn, calls)", score:1 },
+    { label:"We're still figuring this out", score:3 }
+  ]},
+  { id:2, question:"How consistent is your monthly revenue?", options:[
+    { label:"Very inconsistent — it fluctuates a lot", score:3 },
+    { label:"Somewhat predictable but has slow months", score:2 },
+    { label:"Fairly stable with a few surprises", score:1 },
+    { label:"Very predictable and growing", score:0 }
+  ]},
+  { id:3, question:"Do you have a documented outbound sales process?", options:[
+    { label:"No — it's mostly ad hoc", score:3 },
+    { label:"Loosely documented, not consistently used", score:2 },
+    { label:"Yes, but it's outdated or underperforming", score:2 },
+    { label:"Yes, and it's working well", score:0 }
+  ]},
+  { id:4, question:"How would you describe your current sales pipeline?", options:[
+    { label:"I don't really have one", score:3 },
+    { label:"Informal — tracked in spreadsheets or my head", score:2 },
+    { label:"In a CRM but not well maintained", score:2 },
+    { label:"Healthy and actively managed", score:0 }
+  ]},
+  { id:5, question:"What's your biggest bottleneck to revenue growth right now?", options:[
+    { label:"Not enough leads coming in", score:3 },
+    { label:"Leads come in but don't convert", score:2 },
+    { label:"No time to focus on sales — I'm in the weeds", score:3 },
+    { label:"We need a repeatable system, not just hustle", score:3 }
+  ]},
+  { id:6, question:"What's your current monthly revenue range?", options:[
+    { label:"Pre-revenue / under $5k", score:1 },
+    { label:"$5k – $25k/mo", score:3 },
+    { label:"$25k – $100k/mo", score:3 },
+    { label:"$100k+/mo", score:2 }
+  ]},
+  { id:7, question:"How soon are you looking to address your sales challenges?", options:[
+    { label:"Right now — it's urgent", score:3 },
+    { label:"In the next 1–3 months", score:2 },
+    { label:"Just exploring for now", score:1 },
+    { label:"Not sure yet", score:1 }
+  ]}
+];
+
+var current = 0;
+var answers = {};
+
+function getResult(score) {
+  var max = questions.length * 3;
+  var pct = score / max;
+  if (pct >= 0.7) return { tier:'strong', tierLabel:'Strong Fit', emoji:'&#127919;', headline:"You're ready for a real sales engine.", body:"Your business has the foundation — what's missing is a repeatable outbound system. Impello builds exactly that: lead lists, cold outreach, CRM setup, and follow-up sequences so you stop relying on referrals and start generating predictable pipeline.", cta:"Book a free strategy call", href:"https://calendly.com/alexis-m-antonelli/freediscoverycall" };
+  if (pct >= 0.45) return { tier:'likely', tierLabel:'Likely Fit', emoji:'&#9889;', headline:"There's real opportunity here.", body:"You have some sales activity but no system holding it together. Impello can audit what you're doing, plug the gaps, and build an outbound motion that runs without you babysitting it every week.", cta:"Let's talk about your situation", href:"https://calendly.com/alexis-m-antonelli/freediscoverycall" };
+  return { tier:'later', tierLabel:'Maybe Later', emoji:'&#127793;', headline:"You're not quite ready — yet.", body:"Your pipeline is in better shape than most, or you're still early-stage. Impello works best when there's a clear need to scale outbound. Follow along on LinkedIn and come back when the time is right.", cta:"Follow Impello on LinkedIn", href:"https://www.linkedin.com/company/impello-agency" };
+}
+
+function render() {
+  var q = questions[current];
+  var pct = Math.round((current / questions.length) * 100);
+  document.getElementById('q-counter').textContent = 'Question ' + (current + 1) + ' of ' + questions.length;
+  document.getElementById('q-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('q-num').textContent = String(current + 1).padStart(2, '0') + ' · Question';
+  document.getElementById('q-text').textContent = q.question;
+  var list = document.getElementById('options-list');
+  list.innerHTML = '';
+  q.options.forEach(function(opt, i) {
+    var btn = document.createElement('button');
+    btn.className = 'opt' + (answers[q.id] === i ? ' selected' : '');
+    btn.textContent = opt.label;
+    btn.onclick = function() { selectOption(i); };
+    list.appendChild(btn);
+  });
+  document.getElementById('btn-back').style.visibility = current === 0 ? 'hidden' : 'visible';
+  document.getElementById('btn-next').disabled = answers[q.id] === undefined;
+  document.getElementById('btn-next').innerHTML = current === questions.length - 1 ? 'See my results &#8594;' : 'Next &#8594;';
+}
+
+function selectOption(index) {
+  answers[questions[current].id] = index;
+  render();
+}
+
+function goNext() {
+  if (answers[questions[current].id] === undefined) return;
+  if (current < questions.length - 1) { current++; render(); }
+  else showResult();
+}
+
+function goBack() {
+  if (current > 0) { current--; render(); }
+}
+
+function showResult() {
+  var totalScore = 0;
+  for (var qId in answers) {
+    var q = questions.find(function(q) { return q.id === parseInt(qId); });
+    totalScore += q.options[answers[qId]].score;
+  }
+  var r = getResult(totalScore);
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'block';
+  document.getElementById('result-inner').innerHTML =
+    '<div class="tier-' + r.tier + '">' +
+    '<span class="result-emoji">' + r.emoji + '</span>' +
+    '<div class="result-card">' +
+    '<span class="result-badge">' + r.tierLabel + '</span>' +
+    '<h2 class="result-headline">' + r.headline + '</h2>' +
+    '<p class="result-body">' + r.body + '</p>' +
+    '</div>' +
+    '<a href="' + r.href + '" target="_blank" rel="noreferrer" class="result-cta">' + r.cta + ' &#8594;</a>' +
+    '<button class="btn-restart" onclick="restart()">Start over</button>' +
+    '</div>';
+}
+
+function restart() {
+  current = 0; answers = {};
+  document.getElementById('screen-quiz').style.display = 'block';
+  document.getElementById('screen-result').style.display = 'none';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
