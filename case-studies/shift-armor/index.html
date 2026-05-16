@@ -32,12 +32,16 @@ a { color: inherit; text-decoration: none; }
 .cursor-ring.is-hovering { width: 48px; height: 48px; opacity: 0.5; }
 
 /* Logo */
-.impello-logo { display: inline-flex; align-items: center; gap: 8px; font-family: var(--imp-display); font-weight: 700; font-size: 18px; letter-spacing: -0.03em; color: var(--imp-slate); }
-.impello-logo__arrow svg { width: 28px; height: 14px; }
-.impello-logo__cursor { display: inline-block; width: 2px; height: 18px; background: var(--imp-amber); animation: blink 1s step-end infinite; }
+.impello-logo { display: inline-flex; align-items: baseline; gap: 11px; font-family: var(--imp-display); font-weight: 500; font-size: 28px; line-height: 1; letter-spacing: -0.04em; color: var(--imp-slate); user-select: none; text-decoration: none; }
+.impello-logo__mark { display: inline-block; }
+.impello-logo__arrow { display: inline-flex; align-items: center; align-self: center; width: 0.85em; height: 0.45em; color: var(--imp-amber); transform: translateY(-0.04em); }
+.impello-logo__arrow svg { width: 100%; height: 100%; display: block; }
+.impello-logo__cursor { display: inline-block; width: 0.18em; height: 0.85em; background: var(--imp-amber); align-self: center; transform: translateY(0.04em); animation: imp-blink 1.05s steps(2, end) infinite; }
+@keyframes imp-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .impello-logo__cursor { animation: none; opacity: 1; } }
 .impello-logo--inverse { color: var(--imp-bone); }
+.impello-logo--inverse .impello-logo__arrow { color: var(--imp-amber-2); }
 .impello-logo--inverse .impello-logo__cursor { background: var(--imp-amber-2); }
-@keyframes blink { 50% { opacity: 0; } }
 
 /* Nav */
 nav { position: sticky; top: 0; z-index: 100; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter); background: rgba(243,236,221,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--imp-rule); }
