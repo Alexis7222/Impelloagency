@@ -90,12 +90,31 @@
 
     #screen-result { display: none; }
     @media (max-width: 600px) { .quiz-outer { padding: 2.5rem var(--gutter); align-items: flex-start; } }
+  
+    /* -- Impello logo -- */
+    .impello-logo { display: inline-flex; align-items: baseline; gap: 11px; font-family: var(--imp-display); font-weight: 500; font-size: 28px; line-height: 1; letter-spacing: -0.04em; color: var(--imp-slate); user-select: none; text-decoration: none; }
+    .impello-logo__mark { display: inline-block; }
+    .impello-logo__arrow { display: inline-flex; align-items: center; align-self: center; width: 0.85em; height: 0.45em; color: var(--imp-amber); transform: translateY(-0.04em); }
+    .impello-logo__arrow svg { width: 100%; height: 100%; display: block; }
+    .impello-logo__cursor { display: inline-block; width: 0.18em; height: 0.85em; background: var(--imp-amber); align-self: center; transform: translateY(0.04em); animation: imp-blink 1.05s steps(2, end) infinite; }
+    @keyframes imp-blink { 50% { opacity: 0; } }
+    .impello-logo--inverse { color: var(--imp-bone); }
+    .impello-logo--inverse .impello-logo__arrow { color: var(--imp-amber-2); }
+    .impello-logo--inverse .impello-logo__cursor { background: var(--imp-amber-2); }
   </style>
 </head>
 <body>
 
 <nav>
-  <a href="/" class="nav-logo">Impello</a>
+  <a href="/" class="impello-logo impello-logo--inverse" aria-label="Impello — home">
+    <span class="impello-logo__mark">impello</span>
+    <span class="impello-logo__arrow" aria-hidden="true">
+      <svg viewBox="0 0 36 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 9 H32"/><path d="M24 2 L33 9 L24 16"/>
+      </svg>
+    </span>
+    <span class="impello-logo__cursor"></span>
+  </a>
   <a href="/" class="nav-back">&#8592; Back to site</a>
 </nav>
 
