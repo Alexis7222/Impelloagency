@@ -32,11 +32,16 @@
   .nav-link:hover, .nav-link.active { color: var(--imp-slate); }
   .nav-btn { font-size: 13px; font-weight: 500; color: var(--imp-bone); background: var(--imp-slate); padding: 9px 20px; border-radius: 999px; text-decoration: none; transition: background 0.15s; }
   .nav-btn:hover { background: #000; }
-  .impello-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--imp-slate); }
-  .impello-logo__mark { font-family: var(--imp-display); font-size: 18px; font-weight: 700; letter-spacing: -0.03em; }
-  .impello-logo__arrow svg { width: 28px; height: 14px; }
-  .impello-logo__cursor { display: inline-block; width: 2px; height: 18px; background: var(--imp-amber); animation: blink 1s step-end infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .impello-logo { display: inline-flex; align-items: baseline; gap: 11px; font-family: var(--imp-display); font-weight: 500; font-size: 28px; line-height: 1; letter-spacing: -0.04em; color: var(--imp-slate); user-select: none; text-decoration: none; }
+  .impello-logo__mark { display: inline-block; }
+  .impello-logo__arrow { display: inline-flex; align-items: center; align-self: center; width: 0.85em; height: 0.45em; color: var(--imp-amber); transform: translateY(-0.04em); }
+  .impello-logo__arrow svg { width: 100%; height: 100%; display: block; }
+  .impello-logo__cursor { display: inline-block; width: 0.18em; height: 0.85em; background: var(--imp-amber); align-self: center; transform: translateY(0.04em); animation: imp-blink 1.05s steps(2, end) infinite; }
+  @keyframes imp-blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .impello-logo__cursor { animation: none; opacity: 1; } }
+  .impello-logo--inverse { color: var(--imp-bone); }
+  .impello-logo--inverse .impello-logo__arrow { color: var(--imp-amber-2); }
+  .impello-logo--inverse .impello-logo__cursor { background: var(--imp-amber-2); }
 
   /* Page header */
   .cs-header { background: var(--imp-slate); padding: 80px var(--gutter) 72px; }
